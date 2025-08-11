@@ -63,7 +63,7 @@
         }
 
         .nav-btn {
-            background: #317733;
+            background: #4CAF50;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -108,7 +108,7 @@
         h3 {
             font-size: 1.8em;
             margin-bottom: 20px;
-            color: #ecf0f1;
+            color: #2980b9;
         }
 
         .subtitle {
@@ -123,13 +123,19 @@
 
         .problem-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 30px;
             margin: 40px 0;
         }
+        
+        @media (min-width: 900px) {
+            .problem-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
 
         .problem-item {
-            background: #c95454;
+            background: #ff6b6b;
             color: white;
             padding: 30px;
             border-radius: 15px;
@@ -139,13 +145,19 @@
 
         .solution-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 30px;
             margin: 40px 0;
         }
+        
+        @media (min-width: 900px) {
+            .solution-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
 
         .solution-item {
-            background: #317733;
+            background: #4CAF50;
             color: white;
             padding: 30px;
             border-radius: 15px;
@@ -401,13 +413,13 @@
     <div class="container">
         <nav class="nav-container">
             <div class="nav">
-                <button class="nav-btn active" onclick="showSlide(0)">The Idea</button>
-                <button class="nav-btn" onclick="showSlide(1)">The Problem</button>
-                <button class="nav-btn" onclick="showSlide(2)">The Solution</button>
-                <button class="nav-btn" onclick="showSlide(3)">The Kit Experience</button>
-                <button class="nav-btn" onclick="showSlide(4)">The Savings</button>
-                <button class="nav-btn" onclick="showSlide(5)">The How It Works</button>
-                <button class="nav-btn" onclick="showSlide(6)">The Ask...</button>
+                <button class="nav-btn active" onclick="showSlide(0)">Concept</button>
+                <button class="nav-btn" onclick="showSlide(1)">Problem</button>
+                <button class="nav-btn" onclick="showSlide(2)">Solution</button>
+                <button class="nav-btn" onclick="showSlide(3)">Kit Experience</button>
+                <button class="nav-btn" onclick="showSlide(4)">Savings</button>
+                <button class="nav-btn" onclick="showSlide(5)">How It Works</button>
+                <button class="nav-btn" onclick="showSlide(6)">Next Steps</button>
             </div>
         </nav>
 
@@ -417,15 +429,15 @@
                 <h1>FuelCraft: DIY Sports Nutrition Made Simple</h1>
                 <p class="subtitle">
                     You know how sports drinks cost $3+ per serving and you're stuck with whatever flavor/strength they picked? 
-                    We sell DIY kits with quality ingredients that cost a fraction, proportioned to let you easily customize flavors and ratios, 
+                    We sell DIY kits with pre-measured ingredients that cost 75% less, let you customize flavors and ratios, 
                     and include simple guides so you don't have to guess.
                 </p>
                 <div class="savings-display">
                     <h2>It's like having a sports nutritionist's ingredients with IKEA-level instructions</h2>
                 </div>
                 <p style="font-size: 1.2em; color: #7f8c8d; margin-top: 30px;">
-                    Instead of spending $3-4 on premium brands to fill one bottle, you spend a fraction, 
-                    can mix flavors to your taste, easily adjust nutrition for conditions, and actually understand what you're putting in your body.
+                    Instead of paying $40 for 16 servings of premium brands, you get 10 servings for $12, 
+                    can mix flavors, adjust for conditions, and actually understand what you're putting in your body.
                 </p>
             </div>
         </div>
@@ -437,7 +449,7 @@
                 <div class="problem-grid">
                     <div class="problem-item">
                         <h3>💸 Expensive</h3>
-                        <p>Premium brands charge $3.50+ per serving for basic carbs and electrolytes</p>
+                        <p>Premium brands charge $2.50+ per serving for basic carbs and electrolytes</p>
                     </div>
                     <div class="problem-item">
                         <h3>🎯 One-Size-Fits-All</h3>
@@ -461,10 +473,10 @@
         <!-- Slide 3: Our Solution -->
         <div class="slide">
             <div class="slide-content">
-                <h2>Our Solution: Easy & Customizable DIY Kits</h2>
+                <h2>Our Solution: The Sweet Spot</h2>
                 <div class="solution-grid">
                     <div class="solution-item">
-                        <h3>💰 Huge Cost Savings</h3>
+                        <h3>💰 75% Cost Savings</h3>
                         <p>All the quality, fraction of the price</p>
                     </div>
                     <div class="solution-item">
@@ -473,7 +485,7 @@
                     </div>
                     <div class="solution-item">
                         <h3>📖 Zero Guesswork</h3>
-                        <p>Proportioned ingredients with foolproof instructions</p>
+                        <p>Pre-measured ingredients with foolproof instructions</p>
                     </div>
                     <div class="solution-item">
                         <h3>🧠 Education Included</h3>
@@ -481,7 +493,7 @@
                     </div>
                 </div>
                 <div class="cta-section">
-                    <h3>We bridge the gap between expensive convenience and cheap complexity, giving you control of your nutrition</h3>
+                    <h2>We bridge the gap between expensive convenience and cheap complexity</h2>
                 </div>
             </div>
         </div>
@@ -494,8 +506,8 @@
                 
                 <div class="kit-visual">
                     <div class="kit-item">
-                        <h4>Proportioned Ingredients</h4>
-                        <p>Bulk containers with the right ratios so nothing goes to waste. Measure each serving fresh.</p>
+                        <h4>Pre-Measured Ingredients</h4>
+                        <p>Color-coded packets for each component. No measuring, no math.</p>
                     </div>
                     <div class="kit-item">
                         <h4>Precision Tools</h4>
@@ -511,25 +523,25 @@
                     </div>
                 </div>
 
-                <!--<div style="background: #f8f9fa; padding: 30px; border-radius: 15px; margin: 40px 0;">
-                    <h3>The "Aha Moment"</h3>
+                <div style="background: #f8f9fa; padding: 30px; border-radius: 15px; margin: 40px 0;">
+                    <h3>Tastes Great, Less Taxing!</h3>
                     <p style="font-size: 1.2em; color: #2c3e50;">
                         "This is so much easier than I expected, and it tastes better than the expensive stuff"
                     </p>
-                </div>-->
+                </div>
             </div>
         </div>
 
         <!-- Slide 5: Savings Breakdown -->
         <div class="slide">
             <div class="slide-content">
-                <h2>The Economics Are Compelling</h2>
+                <h2>Do More, Spend Less</h2>
                 
                 <div class="price-comparison">
                     <div class="price-card">
-                        <h2>Premium Brand</h2>
+                        <h3>Premium Brand</h3>
                         <div class="price">$41.95</div>
-                        <p>12 servings<br>= $3.50 per serving</p>
+                        <p>16 servings<br>= $2.62 per serving</p>
                         <ul style="text-align: left; margin: 20px 0;">
                             <li>One flavor only</li>
                             <li>Fixed concentration</li>
@@ -538,7 +550,7 @@
                     </div>
                     
                     <div class="price-card featured">
-                        <h2>Our DIY Kit</h2>
+                        <h3>Our DIY Kit</h3>
                         <div class="price" style="color: #4CAF50;">$12-15</div>
                         <p>10 servings<br>= $1.20-1.50 per serving</p>
                         <ul style="text-align: left; margin: 20px 0;">
@@ -551,7 +563,7 @@
                 </div>
 
                 <div class="savings-display">
-                    <h2>Save $1,000+ per year if you're a enthusiast! Cycling, running, swimming...</h2>
+                    <h2>Save $1,000+ per year if you're a serious cyclist</h2>
                     <p style="font-size: 1.1em; margin-top: 20px;">
                         Based on using 2-3 servings per week for training and events
                     </p>
@@ -572,8 +584,8 @@
                     </div>
                     <div class="step">
                         <div class="step-number">2</div>
-                        <h4>Follow The Cards</h4>
-                        <p>Simple instructions with professional guidance on ratios and timing</p>
+                        <h4><a href="cards.html" style="color: #2c3e50; text-decoration: none;" onmouseover="this.style.color='#4CAF50'" onmouseout="this.style.color='#2c3e50'">Follow The Cards</a></h4>
+                        <p>Simple instructions with professional guidance on ratios and timing. <a href="cards.html" style="color: #4CAF50; text-decoration: none; font-weight: bold;">See card examples →</a></p>
                     </div>
                     <div class="step">
                         <div class="step-number">3</div>
@@ -588,7 +600,7 @@
                 </div>
 
                 <div style="background: #e8f5e8; padding: 30px; border-radius: 15px; margin: 40px 0;">
-                    <h2>Perfect for:</h2>
+                    <h3>Perfect for:</h3>
                     <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
                         <span>🚴‍♂️ Cyclists</span>
                         <span>🏃‍♀️ Runners</span>
@@ -604,13 +616,13 @@
         <div class="slide">
             <div class="slide-content">
                 <h2>We need feedback!</h2>
-                <p class="subtitle">We're testing this concept with athletes like you before we build it</p>
+                <p class="subtitle">We're testing this concept with athletes and enthusiasts like you before we build it</p>
                 
                 <div class="cta-section">
-                    <h3>Please think about:</h3>
+                    <h2>Key Questions:</h2>
                     <ul style="text-align: left; font-size: 1.1em; max-width: 600px; margin: 30px auto;">
                         <li>Does this solve a real problem for you?</li>
-                        <li>Would you try a starter kit at $12-15?</li>
+                        <li>Would you try a core ingredient kit at $17 (you add sugar)?</li>
                         <li>What features matter most?</li>
                         <li>How do you currently handle sports nutrition?</li>
                         <li>What concerns would you have?</li>
@@ -618,7 +630,7 @@
                 </div>
 
                 <div class="feedback-form">
-                    <h2 style="text-align: center; margin-bottom: 30px;">Let us know your thoughts!</h2>
+                    <h3 style="text-align: center; margin-bottom: 30px;">Let us know your thoughts!</h3>
                     
                     <form action="https://formspree.io/f/xqalwgrg" method="POST">
                         <label>
@@ -632,7 +644,7 @@
                                 <option value="">Select your interest...</option>
                                 <option value="very-interested">Very interested - would buy immediately</option>
                                 <option value="interested">Interested - want to learn more</option>
-                                <option value="maybe">Maybe - depends on product experience</option>
+                                <option value="maybe">Maybe - depends on execution</option>
                                 <option value="not-interested">Not for me</option>
                             </select>
                         </label>
