@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuelCraft - DIY Sports Nutrition Made Simple</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+            display: none;
+            min-height: 80vh;
+        }
+
+        .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .nav-container {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: #317733;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn.active {
+            background: #2196F3;
+            transform: scale(1.05);
+        }
+
+        .slide-content {
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #34495e;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .problem-item {
+            background: #c95454;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(255,107,107,0.3);
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .solution-item {
+            background: #317733;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(76,175,80,0.3);
+        }
+
+        .kit-visual {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .kit-item {
+            background: #f8f9fa;
+            border: 3px solid #e9ecef;
+            border-radius: 15px;
+            padding: 30px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .kit-item::before {
+            content: '';
+            width: 60px;
+            height: 60px;
+            background: #2196F3;
+            border-radius: 50%;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kit-item h4 {
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+
+        .savings-display {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .price-comparison {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .price-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 30px;
+            width: 280px;
+            margin: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .price-card.featured {
+            border-color: #4CAF50;
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(76,175,80,0.3);
+        }
+
+        .price {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .step {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .step-number {
+            background: #4CAF50;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .cta-section {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 60px;
+            text-align: center;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .cta-btn {
+            background: #FF6B6B;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.2em;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .cta-btn:hover {
+            background: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255,107,107,0.3);
+        }
+
+        .feedback-form {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            color: #2c3e50;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feedback-form label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .feedback-form input,
+        .feedback-form select,
+        .feedback-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        .feedback-form textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .feedback-form button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .feedback-form button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .interest-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .interest-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .interest-btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+
+        .interest-btn.selected {
+            background: #4CAF50;
+        }
+
+        @media (max-width: 768px) {
+            .slide-content {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.8em;
+            }
+            
+            .kit-visual {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .price-comparison {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav-container">
+            <div class="nav">
+                <button class="nav-btn active" onclick="showSlide(0)">The Idea</button>
+                <button class="nav-btn" onclick="showSlide(1)">The Problem</button>
+                <button class="nav-btn" onclick="showSlide(2)">The Solution</button>
+                <button class="nav-btn" onclick="showSlide(3)">Kit Experience</button>
+                <button class="nav-btn" onclick="showSlide(4)">Savings</button>
+                <button class="nav-btn" onclick="showSlide(5)">How It Works</button>
+                <button class="nav-btn" onclick="showSlide(6)">Our Ask...</button>
+            </div>
+        </nav>
+
+        <!-- Slide 1: Elevator Pitch -->
+        <div class="slide active">
+            <div class="slide-content">
+                <h1>FuelCraft: DIY Sports Nutrition Made Simple</h1>
+                <p class="subtitle">
+                    You know how sports drinks cost $3+ per serving and you're stuck with whatever flavor/strength they picked? 
+                    We sell DIY kits with pre-measured ingredients that cost a fraction, let you customize flavors and ratios, 
+                    and include simple guides so you don't have to guess.
+                </p>
+                <div class="savings-display">
+                    <h2>It's like having a sports nutritionist's ingredients with IKEA-level instructions</h2>
+                </div>
+                <p style="font-size: 1.2em; color: #7f8c8d; margin-top: 30px;">
+                    Instead of spending $3-4 on premium brands to fill one bottle, you spend a fraction, 
+                    can mix flavors to your taste, easily adjust nutrition for conditions, and actually understand what you're putting in your body.
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>The Current Sports Nutrition Problem</h2>
+                <div class="problem-grid">
+                    <div class="problem-item">
+                        <h3>💸 Expensive</h3>
+                        <p>Premium brands charge $3.50+ per serving for basic carbs and electrolytes</p>
+                    </div>
+                    <div class="problem-item">
+                        <h3>🎯 One-Size-Fits-All</h3>
+                        <p>Stuck with their flavor choices and concentration levels</p>
+                    </div>
+                    <div class="problem-item">
+                        <h3>🤷 No Flexibility</h3>
+                        <p>Can't adjust for hot weather, long rides, or personal preferences</p>
+                    </div>
+                    <div class="problem-item">
+                        <h3>❓ Mystery Ingredients</h3>
+                        <p>Don't know what you're actually consuming or why</p>
+                    </div>
+                </div>
+                <p class="subtitle">
+                    Meanwhile, bulk ingredients cost 90% less but require chemistry knowledge to use safely and effectively.
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Our Solution -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Our Solution: The Sweet Spot</h2>
+                <div class="solution-grid">
+                    <div class="solution-item">
+                        <h3>💰 Huge Cost Savings</h3>
+                        <p>All the quality, fraction of the price</p>
+                    </div>
+                    <div class="solution-item">
+                        <h3>🎨 Total Customization</h3>
+                        <p>Mix flavors, adjust ratios, adapt to conditions</p>
+                    </div>
+                    <div class="solution-item">
+                        <h3>📖 Zero Guesswork</h3>
+                        <p>Pre-measured ingredients with foolproof instructions</p>
+                    </div>
+                    <div class="solution-item">
+                        <h3>🧠 Education Included</h3>
+                        <p>Understand what each ingredient does for your performance</p>
+                    </div>
+                </div>
+                <div class="cta-section">
+                    <h3>We bridge the gap between expensive convenience and cheap complexity, giving you control of your nutrition</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Kit Experience -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>The Kit Experience</h2>
+                <p class="subtitle">Everything you need to become your own sports nutritionist</p>
+                
+                <div class="kit-visual">
+                    <div class="kit-item">
+                        <h4>Pre-Measured Ingredients</h4>
+                        <p>Color-coded packets for each component. No measuring, no math.</p>
+                    </div>
+                    <div class="kit-item">
+                        <h4>Precision Tools</h4>
+                        <p>Digital scale, measuring spoons, and mixing bottle with ratio guides.</p>
+                    </div>
+                    <div class="kit-item">
+                        <h4>Recipe Cards</h4>
+                        <p>Professional instruction cards explaining what each ingredient does.</p>
+                    </div>
+                    <div class="kit-item">
+                        <h4>Customization Guide</h4>
+                        <p>Simple worksheets to adjust for weather, duration, and taste preferences.</p>
+                    </div>
+                </div>
+
+                <!--<div style="background: #f8f9fa; padding: 30px; border-radius: 15px; margin: 40px 0;">
+                    <h3>The "Aha Moment"</h3>
+                    <p style="font-size: 1.2em; color: #2c3e50;">
+                        "This is so much easier than I expected, and it tastes better than the expensive stuff"
+                    </p>
+                </div>-->
+            </div>
+        </div>
+
+        <!-- Slide 5: Savings Breakdown -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>The Economics Are Compelling</h2>
+                
+                <div class="price-comparison">
+                    <div class="price-card">
+                        <h2>Premium Brand</h2>
+                        <div class="price">$41.95</div>
+                        <p>12 servings<br>= $3.50 per serving</p>
+                        <ul style="text-align: left; margin: 20px 0;">
+                            <li>One flavor only</li>
+                            <li>Fixed concentration</li>
+                            <li>No customization</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="price-card featured">
+                        <h2>Our DIY Kit</h2>
+                        <div class="price" style="color: #4CAF50;">$12-15</div>
+                        <p>10 servings<br>= $1.20-1.50 per serving</p>
+                        <ul style="text-align: left; margin: 20px 0;">
+                            <li>Multiple flavors</li>
+                            <li>Adjustable ratios</li>
+                            <li>Educational guides</li>
+                            <li>Higher energy density</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="savings-display">
+                    <h2>Save $1,000+ per year if you're a enthusiast! Cycling, running, swimming...</h2>
+                    <p style="font-size: 1.1em; margin-top: 20px;">
+                        Based on using 2-3 servings per week for training and events
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: How It Works -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>How It Works</h2>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>Choose Your Kit</h4>
+                        <p>Starter kit with base ingredients plus flavor variety pack</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>Follow The Cards</h4>
+                        <p>Simple instructions with professional guidance on ratios and timing</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>Mix & Test</h4>
+                        <p>Try different flavors and concentrations to find your perfect formula</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h4>Customize & Reorder</h4>
+                        <p>Reorder your favorites or try new experiments</p>
+                    </div>
+                </div>
+
+                <div style="background: #e8f5e8; padding: 30px; border-radius: 15px; margin: 40px 0;">
+                    <h2>Perfect for:</h2>
+                    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+                        <span>🚴‍♂️ Cyclists</span>
+                        <span>🏃‍♀️ Runners</span>
+                        <span>🏊‍♂️ Triathletes</span>
+                        <span>⛰️ Hikers</span>
+                        <span>💪 Any endurance athlete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Next Steps -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>We need feedback!</h2>
+                <p class="subtitle">We're testing this concept with athletes like you before we build it</p>
+                
+                <div class="cta-section">
+                    <h3>Please think about:</h3>
+                    <ul style="text-align: left; font-size: 1.1em; max-width: 600px; margin: 30px auto;">
+                        <li>Does this solve a real problem for you?</li>
+                        <li>Would you try a starter kit at $12-15?</li>
+                        <li>What features matter most?</li>
+                        <li>How do you currently handle sports nutrition?</li>
+                        <li>What concerns would you have?</li>
+                    </ul>
+                </div>
+
+                <div class="feedback-form">
+                    <h2 style="text-align: center; margin-bottom: 30px;">Let us know your thoughts!</h2>
+                    
+                    <form action="https://formspree.io/f/xqalwgrg" method="POST">
+                        <label>
+                            Your email:
+                            <input type="email" name="email" required>
+                        </label>
+                        
+                        <label>
+                            Interest level:
+                            <select name="interest" required>
+                                <option value="">Select your interest...</option>
+                                <option value="very-interested">Very interested - would buy immediately</option>
+                                <option value="interested">Interested - want to learn more</option>
+                                <option value="maybe">Maybe - depends on product experience</option>
+                                <option value="not-interested">Not for me</option>
+                            </select>
+                        </label>
+                        
+                        <label>
+                            Primary sport:
+                            <select name="sport">
+                                <option value="">Select your sport...</option>
+                                <option value="cycling">Cycling</option>
+                                <option value="running">Running</option>
+                                <option value="triathlon">Triathlon</option>
+                                <option value="hiking">Hiking</option>
+                                <option value="other">Other endurance sport</option>
+                            </select>
+                        </label>
+                        
+                        <label>
+                            Comments or questions:
+                            <textarea name="message" placeholder="What excites you? What concerns you? What features matter most?"></textarea>
+                        </label>
+                        
+                        <button type="submit">Send Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const navBtns = document.querySelectorAll('.nav-btn');
+
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            navBtns.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected slide
+            slides[index].classList.add('active');
+            navBtns[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) {
+                showSlide(currentSlide + 1);
+            } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        });
+    </script>
+</body>
+</html>
