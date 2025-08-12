@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - FuelCraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .nav-link {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: #4CAF50;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .cart-content {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .cart-header {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .cart-header h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .cart-subtitle {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .cart-items {
+            padding: 0;
+        }
+
+        .cart-item {
+            padding: 25px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .item-variants {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .item-price {
+            font-size: 1.1em;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .item-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 5px;
+        }
+
+        .qty-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .qty-btn:hover {
+            background: #45a049;
+            transform: scale(1.1);
+        }
+
+        .qty-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quantity {
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
+        .cart-summary {
+            background: #f8f9fa;
+            padding: 25px;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-label {
+            color: #495057;
+        }
+
+        .summary-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .total-row {
+            border-top: 2px solid #dee2e6;
+            padding-top: 15px;
+            font-size: 1.3em;
+        }
+
+        .total-row .summary-value {
+            color: #4CAF50;
+            font-size: 1.2em;
+        }
+
+        .shipping-note {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .checkout-section {
+            padding: 25px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .checkout-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .checkout-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .continue-shopping {
+            background: transparent;
+            color: #4CAF50;
+            border: 2px solid #4CAF50;
+        }
+
+        .continue-shopping:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 25px;
+        }
+
+        .empty-cart h3 {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .empty-cart p {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+
+        .savings-highlight {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .savings-highlight h3 {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .item-details {
+                width: 100%;
+            }
+
+            .item-controls {
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .summary-row {
+                font-size: 1em;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Your Cart</h1>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">← Back to Home</a>
+                <a href="shop.html" class="nav-link">Continue Shopping</a>
+            </div>
+        </div>
+
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Review Your Order</h2>
+                <p class="cart-subtitle">Make any final adjustments before checkout</p>
+            </div>
+
+            <div id="cart-items-container">
+                <!-- Cart items will be inserted here -->
+            </div>
+
+            <div id="cart-summary-container">
+                <!-- Cart summary will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('fuelcraft-cart') || '[]');
+        const FREE_SHIPPING_THRESHOLD = 25.00;
+        const SHIPPING_RATE = 4.99;
+
+        // Initialize cart page
+        function initCart() {
+            renderCart();
+        }
+
+        // Render entire cart
+        function renderCart() {
+            const itemsContainer = document.getElementById('cart-items-container');
+            const summaryContainer = document.getElementById('cart-summary-container');
+
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <h3>🛒 Your cart is empty</h3>
+                        <p>Looks like you haven't added any items to your cart yet.</p>
+                        <a href="shop.html" class="checkout-btn">Start Shopping</a>
+                    </div>
+                `;
+                summaryContainer.innerHTML = '';
+                return;
+            }
+
+            // Render cart items
+            itemsContainer.innerHTML = `
+                <div class="cart-items">
+                    ${cart.map(item => createCartItemHTML(item)).join('')}
+                </div>
+            `;
+
+            // Render cart summary
+            summaryContainer.innerHTML = createCartSummaryHTML();
+        }
+
+        // Create HTML for individual cart item
+        function createCartItemHTML(item) {
+            const totalPrice = item.price * item.quantity;
+            const variants = item.variants ? 
+                Object.values(item.variants).map(v => v.name).join(', ') : '';
+            
+            // Create unique identifier for this cart item
+            const itemKey = createItemKey(item.id, item.variants);
+
+            return `
+                <div class="cart-item" data-item-key="${itemKey}">
+                    <div class="item-image">${getItemEmoji(item)}</div>
+                    <div class="item-details">
+                        <div class="item-name">${item.name}</div>
+                        ${variants ? `<div class="item-variants">${variants}</div>` : ''}
+                        <div class="item-price">${item.price.toFixed(2)} each</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="updateQuantity('${itemKey}', -1)" ${item.quantity <= 1 ? 'disabled' : ''}>−</button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateQuantity('${itemKey}', 1)">+</button>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem('${itemKey}')">Remove</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create cart summary HTML
+        function createCartSummaryHTML() {
+            const subtotal = calculateSubtotal();
+            const shipping = calculateShipping(subtotal);
+            const total = subtotal + shipping;
+            const totalSavings = calculateTotalSavings();
+
+            return `
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span class="summary-label">Subtotal (${getTotalItems()} items)</span>
+                        <span class="summary-value">$${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Shipping</span>
+                        <span class="summary-value">${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
+                    </div>
+                    ${shipping > 0 ? `
+                        <div class="shipping-note">
+                            💡 Add $${(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2)} more for free shipping!
+                        </div>
+                    ` : `
+                        <div class="shipping-note">
+                            🎉 You qualify for free shipping!
+                        </div>
+                    `}
+                    <div class="summary-row total-row">
+                        <span class="summary-label">Total</span>
+                        <span class="summary-value">$${total.toFixed(2)}</span>
+                    </div>
+                    ${totalSavings > 0 ? `
+                        <div class="savings-highlight">
+                            <h3>🎯 You're saving $${totalSavings.toFixed(0)}!</h3>
+                            <p>Compared to premium sports nutrition brands</p>
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="checkout-section">
+                    <button class="checkout-btn" onclick="proceedToCheckout()">
+                        Proceed to Checkout - $${total.toFixed(2)}
+                    </button>
+                    <button class="checkout-btn continue-shopping" onclick="continueShopping()">
+                        Continue Shopping
+                    </button>
+                </div>
+            `;
+        }
+
+        // Update item quantity
+        function updateQuantity(itemKey, change) {
+            const itemIndex = findCartItemIndexByKey(itemKey);
+            
+            if (itemIndex >= 0) {
+                cart[itemIndex].quantity += change;
+                if (cart[itemIndex].quantity <= 0) {
+                    cart.splice(itemIndex, 1);
+                }
+                saveCart();
+                renderCart();
+            }
+        }
+
+        // Remove item completely
+        function removeItem(itemKey) {
+            const itemIndex = findCartItemIndexByKey(itemKey);
+            
+            if (itemIndex >= 0) {
+                cart.splice(itemIndex, 1);
+                saveCart();
+                renderCart();
+            }
+        }
+
+        // Create unique key for cart item
+        function createItemKey(itemId, variants) {
+            return btoa(itemId + JSON.stringify(variants || {})).replace(/[^a-zA-Z0-9]/g, '');
+        }
+
+        // Find cart item index by unique key
+        function findCartItemIndexByKey(itemKey) {
+            return cart.findIndex(item => 
+                createItemKey(item.id, item.variants) === itemKey
+            );
+        }
+
+        // Calculate subtotal
+        function calculateSubtotal() {
+            return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        }
+
+        // Calculate shipping
+        function calculateShipping(subtotal) {
+            return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_RATE;
+        }
+
+        // Calculate total savings vs premium brands
+        function calculateTotalSavings() {
+            const PREMIUM_COST_PER_SERVING = 3.50;
+            let totalSavings = 0;
+            
+            cart.forEach(item => {
+                if (!item.isAddOn) {
+                    // Estimate servings based on product name
+                    let servings = 10; // default
+                    if (item.name.includes('5 Servings')) servings = 5;
+                    if (item.name.includes('20 Servings')) servings = 20;
+                    
+                    const ourCostPerServing = item.price / servings;
+                    const savingsPerServing = PREMIUM_COST_PER_SERVING - ourCostPerServing;
+                    totalSavings += savingsPerServing * servings * item.quantity;
+                }
+            });
+            
+            return Math.max(0, totalSavings);
+        }
+
+        // Get total number of items
+        function getTotalItems() {
+            return cart.reduce((total, item) => total + item.quantity, 0);
+        }
+
+        // Get emoji for item
+        function getItemEmoji(item) {
+            if (item.isAddOn) return '📦';
+            if (item.name.includes('Starter')) return '🎯';
+            if (item.name.includes('Standard')) return '⭐';
+            if (item.name.includes('Bulk')) return '💪';
+            return '📦';
+        }
+
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('fuelcraft-cart', JSON.stringify(cart));
+        }
+
+        // Navigation functions
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        }
+
+        function continueShopping() {
+            window.location.href = 'shop.html';
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initCart);
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "add_ons": [
+    {
+      "id": "extra-scale",
+      "sku": "FC-SCALE-01",
+      "name": "Precision Mini Scale",
+      "price": 12.00,
+      "description": "0.1g accuracy for perfect custom mixing",
+      "image": "/images/add-ons/mini-scale.jpg",
+      "compatible_with": ["starter-kit-5", "standard-kit-10"],
+      "stock": 75,
+      "weight_oz": 3
+    },
+    {
+      "id": "flavor-booster-pack",
+      "sku": "FC-FLAVOR-01",
+      "name": "Extra Flavor Variety Pack", 
+      "price": 8.00,
+      "description": "Additional flavor sachets for experimentation",
+      "image": "/images/add-ons/flavor-pack.jpg",
+      "whats_included": [
+        "Citrus blend sachets (5x)",
+        "Berry mix sachets (5x)", 
+        "Tropical blend sachets (5x)"
+      ],
+      "compatible_with": ["starter-kit-5", "standard-kit-10", "bulk-kit-20"],
+      "stock": 60,
+      "weight_oz": 1
+    }
+  ]
+}

@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - FuelCraft DIY Sports Nutrition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .nav-link {
+            display: inline-block;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: #4CAF50;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            color: #495057;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        .filter-btn.active {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-card.featured {
+            border: 3px solid #4CAF50;
+        }
+
+        .product-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: #4CAF50;
+            color: white;
+            padding: 5px 40px;
+            font-size: 12px;
+            font-weight: bold;
+            transform: rotate(45deg);
+            z-index: 10;
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            position: relative;
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+
+        .product-price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .product-savings {
+            background: #fff3cd;
+            color: #856404;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            border-left: 3px solid #ffc107;
+        }
+
+        .product-details {
+            margin-bottom: 20px;
+        }
+
+        .detail-section {
+            margin-bottom: 15px;
+        }
+
+        .detail-title {
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .detail-list {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            list-style: none;
+        }
+
+        .detail-list li {
+            margin-bottom: 3px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .detail-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .variants {
+            margin-bottom: 20px;
+        }
+
+        .variant-group {
+            margin-bottom: 15px;
+        }
+
+        .variant-label {
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .variant-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .variant-option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            color: #495057;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+
+        .variant-option:hover {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        .variant-option.selected {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .add-to-cart-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .cart-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .cart-indicator:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+
+        .cart-count {
+            background: #FF6B6B;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .add-ons-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .add-ons-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .add-ons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .add-on-card {
+            border: 2px solid #e9ecef;
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .add-on-card:hover {
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 1.2em;
+            color: #7f8c8d;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FuelCraft Shop</h1>
+            <p>DIY Sports Nutrition Made Simple</p>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </div>
+
+        <div class="cart-indicator" onclick="viewCart()">
+            🛒 Cart <span class="cart-count" id="cart-count">0</span>
+        </div>
+
+        <div class="filters" id="filters">
+            <div class="filter-group">
+                <label>Category:</label>
+                <button class="filter-btn active" data-category="all">All Products</button>
+                <button class="filter-btn" data-category="starter">Starter</button>
+                <button class="filter-btn" data-category="standard">Standard</button>
+                <button class="filter-btn" data-category="bulk">Bulk</button>
+            </div>
+        </div>
+
+        <div id="products-container">
+            <div class="loading">Loading products...</div>
+        </div>
+
+        <div class="add-ons-section" id="add-ons-section" style="display: none;">
+            <h2 class="add-ons-title">Enhance Your Kit</h2>
+            <div class="add-ons-grid" id="add-ons-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        let products = [];
+        let addOns = [];
+        let categories = {};
+        let shipping = {};
+        let cart = JSON.parse(localStorage.getItem('fuelcraft-cart') || '[]');
+        let currentFilter = 'all';
+
+        // Initialize the shop
+        async function initShop() {
+            try {
+                await loadData();
+                renderProducts();
+                renderAddOns();
+                updateCartIndicator();
+                setupEventListeners();
+            } catch (error) {
+                showError('Failed to load products. Please refresh the page.');
+            }
+        }
+
+        // Load all data files
+        async function loadData() {
+            const [productsRes, addOnsRes, categoriesRes, shippingRes] = await Promise.all([
+                fetch('/data/products.json'),
+                fetch('/data/add-ons.json'),
+                fetch('/data/categories.json'),
+                fetch('/data/shipping.json')
+            ]);
+
+            const productsData = await productsRes.json();
+            const addOnsData = await addOnsRes.json();
+            
+            products = productsData.products;
+            addOns = addOnsData.add_ons;
+            categories = (await categoriesRes.json()).categories;
+            shipping = (await shippingRes.json()).shipping;
+        }
+
+        // Render products based on current filter
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            const filteredProducts = currentFilter === 'all' 
+                ? products 
+                : products.filter(p => p.category === currentFilter);
+
+            if (filteredProducts.length === 0) {
+                container.innerHTML = '<div class="loading">No products found</div>';
+                return;
+            }
+
+            container.innerHTML = '<div class="products-grid">' + 
+                filteredProducts.map(product => createProductCard(product)).join('') + 
+                '</div>';
+        }
+
+        // Create product card HTML
+        function createProductCard(product) {
+            const savings = calculateSavings(product);
+            const featuredClass = product.featured ? 'featured' : '';
+            
+            return `
+                <div class="product-card ${featuredClass}">
+                    <div class="product-image">${getProductEmoji(product.category)}</div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        ${savings ? `<div class="product-savings">Save ${savings} vs premium brands!</div>` : ''}
+                        
+                        <div class="product-details">
+                            <div class="detail-section">
+                                <div class="detail-title">What's Included:</div>
+                                <ul class="detail-list">
+                                    ${product.whats_included.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="detail-title">Nutrition Per Serving:</div>
+                                <ul class="detail-list">
+                                    <li>${product.nutritional_info.calories_per_serving} calories</li>
+                                    <li>${product.nutritional_info.carbs_per_serving} carbs</li>
+                                    <li>${product.nutritional_info.sodium_per_serving} sodium</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        ${renderVariants(product)}
+                        
+                        <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">
+                            Add to Cart - $${product.price.toFixed(2)}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render product variants
+        function renderVariants(product) {
+            if (!product.variants) return '';
+            
+            let variantsHtml = '<div class="variants">';
+            
+            Object.entries(product.variants).forEach(([variantType, options]) => {
+                variantsHtml += `
+                    <div class="variant-group">
+                        <div class="variant-label">${capitalizeFirst(variantType)}:</div>
+                        <div class="variant-options">
+                            ${options.map(option => `
+                                <div class="variant-option ${option.price_modifier === 0 ? 'selected' : ''}" 
+                                     data-product="${product.id}" 
+                                     data-variant="${variantType}" 
+                                     data-option="${option.id}"
+                                     data-price="${option.price_modifier}">
+                                    ${option.name}
+                                    ${option.price_modifier > 0 ? ` (+$${option.price_modifier})` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            variantsHtml += '</div>';
+            return variantsHtml;
+        }
+
+        // Render add-ons section
+        function renderAddOns() {
+            const container = document.getElementById('add-ons-grid');
+            const section = document.getElementById('add-ons-section');
+            
+            if (addOns.length > 0) {
+                section.style.display = 'block';
+                container.innerHTML = addOns.map(addon => `
+                    <div class="add-on-card">
+                        <h4>${addon.name}</h4>
+                        <p>${addon.description}</p>
+                        <div class="product-price">$${addon.price.toFixed(2)}</div>
+                        <button class="add-to-cart-btn" onclick="addToCart('${addon.id}', true)">
+                            Add to Cart
+                        </button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Add item to cart
+        function addToCart(productId, isAddOn = false) {
+            const item = isAddOn 
+                ? addOns.find(a => a.id === productId)
+                : products.find(p => p.id === productId);
+            
+            if (!item) return;
+
+            let cartItem = {
+                id: productId,
+                name: item.name,
+                price: item.price,
+                quantity: 1,
+                isAddOn: isAddOn
+            };
+
+            // Get selected variants for products
+            if (!isAddOn && item.variants) {
+                cartItem.variants = {};
+                Object.keys(item.variants).forEach(variantType => {
+                    const selected = document.querySelector(
+                        `[data-product="${productId}"][data-variant="${variantType}"].selected`
+                    );
+                    if (selected) {
+                        cartItem.variants[variantType] = {
+                            id: selected.dataset.option,
+                            name: selected.textContent.trim(),
+                            price_modifier: parseFloat(selected.dataset.price) || 0
+                        };
+                        cartItem.price += cartItem.variants[variantType].price_modifier;
+                    }
+                });
+            }
+
+            // Check if item already exists in cart
+            const existingIndex = cart.findIndex(c => 
+                c.id === cartItem.id && 
+                JSON.stringify(c.variants || {}) === JSON.stringify(cartItem.variants || {})
+            );
+
+            if (existingIndex >= 0) {
+                cart[existingIndex].quantity++;
+            } else {
+                cart.push(cartItem);
+            }
+
+            saveCart();
+            updateCartIndicator();
+            
+            // Visual feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Added!';
+            button.style.background = '#4CAF50';
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 1000);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('[data-category]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    currentFilter = e.target.dataset.category;
+                    updateFilterButtons();
+                    renderProducts();
+                });
+            });
+
+            // Variant selection
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('variant-option')) {
+                    const productId = e.target.dataset.product;
+                    const variantType = e.target.dataset.variant;
+                    
+                    // Deselect other options in same variant group
+                    document.querySelectorAll(
+                        `[data-product="${productId}"][data-variant="${variantType}"]`
+                    ).forEach(option => option.classList.remove('selected'));
+                    
+                    // Select clicked option
+                    e.target.classList.add('selected');
+                    
+                    // Update price display
+                    updateProductPrice(productId);
+                }
+            });
+        }
+
+        // Update filter buttons
+        function updateFilterButtons() {
+            document.querySelectorAll('[data-category]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === currentFilter);
+            });
+        }
+
+        // Update product price based on selected variants
+        function updateProductPrice(productId) {
+            const product = products.find(p => p.id === productId);
+            let totalPrice = product.price;
+            
+            // Add variant price modifiers
+            document.querySelectorAll(`[data-product="${productId}"].selected`).forEach(selected => {
+                totalPrice += parseFloat(selected.dataset.price) || 0;
+            });
+            
+            // Update button text
+            const button = document.querySelector(`[onclick="addToCart('${productId}')"]`);
+            if (button) {
+                button.innerHTML = `Add to Cart - $${totalPrice.toFixed(2)}`;
+            }
+        }
+
+        // Utility functions
+        function getProductEmoji(category) {
+            const emojis = {
+                starter: '🎯',
+                standard: '⭐',
+                bulk: '💪'
+            };
+            return emojis[category] || '📦';
+        }
+
+        function calculateSavings(product) {
+            // Assuming premium brands cost ~$3.50 per serving
+            const premiumCostPerServing = 3.50;
+            const ourCostPerServing = product.price / product.nutritional_info.servings;
+            const savingsPerServing = premiumCostPerServing - ourCostPerServing;
+            const totalSavings = savingsPerServing * product.nutritional_info.servings;
+            
+            if (totalSavings > 5) {
+                return `$${totalSavings.toFixed(0)}`;
+            }
+            return null;
+        }
+
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function updateCartIndicator() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        function saveCart() {
+            localStorage.setItem('fuelcraft-cart', JSON.stringify(cart));
+        }
+
+        function viewCart() {
+            window.location.href = 'cart.html';
+        }
+
+        function showError(message) {
+            document.getElementById('products-container').innerHTML = 
+                `<div class="error">${message}</div>`;
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initShop);
+    </script>
+</body>
+</html>

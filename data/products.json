@@ -1,0 +1,204 @@
+{
+  "products": [
+    {
+      "id": "starter-kit-5",
+      "sku": "FC-START-5",
+      "name": "Starter Kit - 5 Servings",
+      "category": "starter",
+      "price": 12.00,
+      "featured": false,
+      "formula_version": "1.0",
+      "launch_date": "2025-08-15",
+      "description": "Perfect for testing our system with a week's worth of rides",
+      "meta_description": "Try FuelCraft's DIY sports nutrition with our 5-serving starter kit. 75% cost savings vs premium brands.",
+      "image": "/images/products/starter-kit-5.jpg",
+      "ingredients": {
+        "maltodextrin": "150g (30g per serving)",
+        "sugar_customer_adds": "300g regular table sugar",
+        "sodium_citrate": "25g (5g per serving)", 
+        "flavoring": "4g natural citrus blend"
+      },
+      "nutritional_info": {
+        "calories_per_serving": 400,
+        "carbs_per_serving": "95g",
+        "sodium_per_serving": "200mg",
+        "servings": 5
+      },
+      "whats_included": [
+        "Pre-measured ingredient packets (5 servings)",
+        "Professional instruction cards",
+        "Shopping list for sugar"
+      ],
+      "variants": {
+        "flavoring": [
+          {
+            "id": "citrus-blend",
+            "name": "Citrus Blend",
+            "price_modifier": 0,
+            "sku_suffix": "-CB",
+            "description": "Lemon-lime natural flavoring"
+          },
+          {
+            "id": "berry-mix",
+            "name": "Berry Mix", 
+            "price_modifier": 0,
+            "sku_suffix": "-BM",
+            "description": "Natural strawberry-raspberry blend"
+          }
+        ]
+      },
+      "constraints": {
+        "max_quantity": 3,
+        "requires_age_verification": false,
+        "shipping_restrictions": []
+      },
+      "tags": ["beginner-friendly", "trial-size", "starter"],
+      "stock": 50,
+      "weight_oz": 8
+    },
+    {
+      "id": "standard-kit-10", 
+      "sku": "FC-STD-10",
+      "name": "Standard Kit - 10 Servings",
+      "category": "standard",
+      "price": 18.00,
+      "featured": true,
+      "formula_version": "1.0",
+      "launch_date": "2025-08-15",
+      "description": "Our most popular kit - perfect for 2-3 weeks of training",
+      "meta_description": "FuelCraft's bestselling 10-serving kit. Everything you need for custom sports nutrition at 75% less cost.",
+      "image": "/images/products/standard-kit-10.jpg",
+      "ingredients": {
+        "maltodextrin": "300g (30g per serving)",
+        "sugar_customer_adds": "600g regular table sugar",
+        "sodium_citrate": "50g (5g per serving)",
+        "flavoring": "8g natural flavor blend"
+      },
+      "nutritional_info": {
+        "calories_per_serving": 400,
+        "carbs_per_serving": "95g", 
+        "sodium_per_serving": "200mg",
+        "servings": 10
+      },
+      "whats_included": [
+        "Pre-measured ingredient packets (10 servings)",
+        "Professional instruction cards",
+        "Shopping list for sugar"
+      ],
+      "variants": {
+        "flavoring": [
+          {
+            "id": "citrus-blend",
+            "name": "Citrus Blend",
+            "price_modifier": 0,
+            "sku_suffix": "-CB",
+            "description": "Lemon-lime natural flavoring"
+          },
+          {
+            "id": "berry-mix", 
+            "name": "Berry Mix",
+            "price_modifier": 0,
+            "sku_suffix": "-BM",
+            "description": "Natural strawberry-raspberry blend"
+          },
+          {
+            "id": "variety-pack",
+            "name": "Variety Pack",
+            "price_modifier": 2.00,
+            "sku_suffix": "-VP",
+            "description": "Mix of citrus and berry packets"
+          }
+        ],
+        "tools": [
+          {
+            "id": "no-scale",
+            "name": "Kit Only",
+            "price_modifier": 0,
+            "sku_suffix": "",
+            "description": "Ingredients and instructions only"
+          },
+          {
+            "id": "with-scale",
+            "name": "Kit + Digital Scale", 
+            "price_modifier": 8.00,
+            "sku_suffix": "-WS",
+            "description": "Includes precision mini scale for custom mixing"
+          }
+        ]
+      },
+      "constraints": {
+        "max_quantity": 5,
+        "requires_age_verification": false,
+        "shipping_restrictions": []
+      },
+      "tags": ["most-popular", "best-value", "standard"],
+      "stock": 100,
+      "weight_oz": 12
+    },
+    {
+      "id": "bulk-kit-20",
+      "sku": "FC-BULK-20",
+      "name": "Bulk Kit - 20 Servings", 
+      "category": "bulk",
+      "price": 32.00,
+      "featured": false,
+      "formula_version": "1.0",
+      "launch_date": "2025-08-15",
+      "description": "Best value for serious athletes - 6+ weeks of training",
+      "meta_description": "FuelCraft bulk kit with 20 servings. Includes tools and bulk containers. Best value for serious athletes.",
+      "image": "/images/products/bulk-kit-20.jpg",
+      "ingredients": {
+        "maltodextrin": "600g (30g per serving)",
+        "sugar_customer_adds": "1200g regular table sugar", 
+        "sodium_citrate": "100g (5g per serving)",
+        "flavoring": "16g natural flavor blend"
+      },
+      "nutritional_info": {
+        "calories_per_serving": 400,
+        "carbs_per_serving": "95g",
+        "sodium_per_serving": "200mg", 
+        "servings": 20
+      },
+      "whats_included": [
+        "Resealable ingredient containers (bulk)",
+        "Digital scale included",
+        "Measuring scoops set",
+        "Professional instruction cards",
+        "Shopping list for sugar"
+      ],
+      "variants": {
+        "flavoring": [
+          {
+            "id": "citrus-blend",
+            "name": "Citrus Blend",
+            "price_modifier": 0,
+            "sku_suffix": "-CB",
+            "description": "Lemon-lime natural flavoring"
+          },
+          {
+            "id": "berry-mix",
+            "name": "Berry Mix",
+            "price_modifier": 0,
+            "sku_suffix": "-BM", 
+            "description": "Natural strawberry-raspberry blend"
+          },
+          {
+            "id": "variety-pack",
+            "name": "Variety Pack",
+            "price_modifier": 3.00,
+            "sku_suffix": "-VP",
+            "description": "Mix of citrus and berry flavoring"
+          }
+        ]
+      },
+      "constraints": {
+        "max_quantity": 3,
+        "requires_age_verification": false,
+        "shipping_restrictions": []
+      },
+      "tags": ["best-value", "bulk", "includes-tools"],
+      "stock": 25,
+      "weight_oz": 20
+    }
+  ]
+}

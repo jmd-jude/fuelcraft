@@ -1,0 +1,22 @@
+{
+  "categories": {
+    "starter": {
+      "name": "Starter Kits",
+      "description": "Perfect for trying our system",
+      "sort_order": 1,
+      "image": "/images/categories/starter.jpg"
+    },
+    "standard": {
+      "name": "Standard Kits", 
+      "description": "Our most popular option",
+      "sort_order": 2,
+      "image": "/images/categories/standard.jpg"
+    },
+    "bulk": {
+      "name": "Bulk Kits",
+      "description": "Best value for serious athletes", 
+      "sort_order": 3,
+      "image": "/images/categories/bulk.jpg"
+    }
+  }
+}
