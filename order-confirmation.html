@@ -417,9 +417,6 @@
                 localStorage.removeItem('fuelcraft-cart');
                 localStorage.removeItem('fuelcraft-pending-order');
 
-                // Send confirmation email (in a real implementation)
-                // await sendConfirmationEmail(orderData);
-
             } catch (error) {
                 console.error('Error processing order:', error);
                 showError();
@@ -431,8 +428,8 @@
             document.getElementById('loading-state').style.display = 'none';
             document.getElementById('success-content').style.display = 'block';
 
-            // Generate order number
-            const orderNumber = generateOrderNumber(orderData, sessionId);
+            // Use the real order number from orderData or generate one
+            const orderNumber = getOrderNumber(orderData, sessionId);
             document.getElementById('order-number').textContent = orderNumber;
 
             // Show customer email
@@ -448,8 +445,14 @@
             document.getElementById('error-content').style.display = 'block';
         }
 
-        // Generate order number
-        function generateOrderNumber(orderData, sessionId) {
+        // Use the real order ID from Airtable
+        function getOrderNumber(orderData, sessionId) {
+            // Use the order ID we generated and saved to Airtable
+            if (orderData.orderID) {
+                return orderData.orderID;
+            }
+            
+            // Fallback if for some reason we don't have the order ID
             const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
             const random = Math.random().toString(36).substr(2, 4).toUpperCase();
             return `FC-${date}-${random}`;
@@ -532,6 +535,8 @@
 
                 if (!response.ok) {
                     console.error('Failed to update order status:', await response.text());
+                } else {
+                    console.log('Order status updated to:', status);
                 }
 
             } catch (error) {
