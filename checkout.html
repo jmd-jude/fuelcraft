@@ -524,39 +524,68 @@
 
                 const orderData = createOrderData();
                 
-                // Save order to Airtable first
-                const airtableResult = await sendOrderToAirtable(orderData);
-                if (!airtableResult.success) {
-                    throw new Error('Failed to save order: ' + airtableResult.error);
+                console.log('Sending order data:', orderData); // Debug log
+                
+                // Call your working Netlify function
+                const response = await fetch('/.netlify/functions/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+
+                console.log('Response status:', response.status); // Debug log
+                console.log('Response headers:', response.headers); // Debug log
+
+                // Check if response is ok
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Response not ok:', errorText);
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
                 }
 
-                // Create Stripe checkout session
-                const response = await createStripeCheckoutSession(orderData);
-                
-                if (response.error) {
-                    throw new Error(response.error.message);
+                // Get response text first
+                const responseText = await response.text();
+                console.log('Raw response:', responseText); // Debug log
+
+                // Try to parse JSON
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('JSON parse error:', parseError);
+                    console.error('Response text was:', responseText);
+                    throw new Error('Invalid response format from server');
+                }
+
+                console.log('Parsed data:', data); // Debug log
+
+                // Check if we got the sessionId
+                if (!data.sessionId) {
+                    throw new Error('No session ID received from server');
                 }
 
                 // Store order data for confirmation page
                 localStorage.setItem('fuelcraft-pending-order', JSON.stringify({
                     ...orderData,
-                    airtableRecordId: airtableResult.recordId,
-                    orderID: airtableResult.orderID,
-                    stripeSessionId: response.id
+                    airtableRecordId: data.airtableRecordId,
+                    orderID: data.orderID,
+                    stripeSessionId: data.sessionId
                 }));
+
+                console.log('Redirecting to Stripe with session:', data.sessionId); // Debug log
 
                 // Redirect to Stripe Checkout
                 const result = await stripe.redirectToCheckout({
-                    sessionId: response.id
+                    sessionId: data.sessionId
                 });
 
                 if (result.error) {
-                    throw new Error(result.error.message);
+                    throw new Error('Stripe redirect failed: ' + result.error.message);
                 }
 
             } catch (error) {
-                console.error('Checkout error:', error);
-                showError('Payment failed: ' + error.message + '. Please try again.');
+                console.error('Full checkout error:', error);
+                showError('Checkout failed: ' + error.message + '. Check browser console for details.');
                 
                 button.disabled = false;
                 processingDiv.classList.remove('show');
