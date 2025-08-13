@@ -405,7 +405,7 @@
                 <button class="filter-btn active" data-category="all">All Products</button>
                 <button class="filter-btn" data-category="starter">Starter</button>
                 <button class="filter-btn" data-category="standard">Standard</button>
-                <button class="filter-btn" data-category="bulk">Bulk</button>
+                <button class="filter-btn" data-category="bulk">Subscription</button>
             </div>
         </div>
 
@@ -694,13 +694,13 @@
         }
 
         function calculateSavings(product) {
-            // Assuming premium brands cost ~$3.50 per serving
-            const premiumCostPerServing = 3.5;
+            // Assuming premium brands cost ~$4.50 per serving
+            const premiumCostPerServing = 4.5;
             const ourCostPerServing = product.price / product.nutritional_info.servings;
             const savingsPerServing = premiumCostPerServing - ourCostPerServing;
             const totalSavings = savingsPerServing * product.nutritional_info.servings;
             
-            if (totalSavings > 5) {
+            if (totalSavings > 4) {
                 return `$${totalSavings.toFixed(0)}`;
             }
             return null;
