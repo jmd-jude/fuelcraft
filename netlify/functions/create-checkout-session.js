@@ -32,7 +32,7 @@ async function saveOrderToAirtable(orderData, orderID) {
 
         const record = {
             fields: {
-                'Name': `Order - ${orderData.customer.firstName} ${orderData.customer.lastName}`,
+                'Name': `${orderID} - ${orderData.customer.firstName} ${orderData.customer.lastName}`,
                 'OrderID': orderID,
                 'Customer Info': customerInfo,
                 'Items Ordered': itemsInfo,
