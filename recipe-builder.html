@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Recipe Builder - FuelCraft</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #4CAF50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .question-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .question-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+        
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .option:hover {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+            transform: translateY(-2px);
+        }
+        
+        .option.selected {
+            background: #4CAF50;
+            border-color: #45a049;
+            color: white;
+        }
+        
+        .option-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        
+        .option-desc {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-back:hover {
+            background: #5a6268;
+        }
+        
+        .btn-next {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-next:hover {
+            background: #45a049;
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .recipe-result {
+            background: #e8f5e8;
+            border: 2px solid #4CAF50;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        .recipe-title {
+            color: #4CAF50;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .ingredient-list {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .ingredient {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .ingredient-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .ingredient-amount {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .recipe-notes {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .recipe-notes h4 {
+            color: #856404;
+            margin-bottom: 8px;
+        }
+        
+        .recipe-notes p {
+            color: #856404;
+            margin: 0;
+            font-size: 0.9em;
+        }
+        
+        .start-over {
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .btn-start-over {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-start-over:hover {
+            background: #1976D2;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #e9ecef;
+            margin-bottom: 30px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #4CAF50;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Custom Recipe Builder</h1>
+            <p>Answer 3 quick questions to get your perfect fuel mix</p>
+        </div>
+        
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <!-- Question 1: Weather -->
+            <div class="question-section active" id="question-1">
+                <div class="question">What's the weather like today?</div>
+                <div class="options">
+                    <div class="option" data-value="hot">
+                        <div class="option-title">🌡️ Hot (75°F+)</div>
+                        <div class="option-desc">You'll sweat more and need extra electrolytes</div>
+                    </div>
+                    <div class="option" data-value="moderate">
+                        <div class="option-title">🌤️ Moderate (60-75°F)</div>
+                        <div class="option-desc">Perfect conditions for our base recipe</div>
+                    </div>
+                    <div class="option" data-value="cool">
+                        <div class="option-title">❄️ Cool (Below 60°F)</div>
+                        <div class="option-desc">Your gut can handle stronger concentrations</div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <div></div>
+                    <button class="btn btn-next" onclick="nextQuestion()" disabled>Next →</button>
+                </div>
+            </div>
+            
+            <!-- Question 2: Duration & Intensity -->
+            <div class="question-section" id="question-2">
+                <div class="question">What kind of ride are you planning?</div>
+                <div class="options">
+                    <div class="option" data-value="easy-short">
+                        <div class="option-title">🚴‍♀️ Easy & Short (under 2 hours)</div>
+                        <div class="option-desc">Light fuel, focus on hydration</div>
+                    </div>
+                    <div class="option" data-value="moderate">
+                        <div class="option-title">⭐ Moderate (2-4 hours, mixed intensity)</div>
+                        <div class="option-desc">Steady energy needs</div>
+                    </div>
+                    <div class="option" data-value="long-hard">
+                        <div class="option-title">💪 Long & Hard (4+ hours or race pace)</div>
+                        <div class="option-desc">Maximum fuel for performance</div>
+                    </div>
+                    <div class="option" data-value="early-morning">
+                        <div class="option-title">🌅 Early Morning Start</div>
+                        <div class="option-desc">Gentle on an empty stomach</div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion()">← Back</button>
+                    <button class="btn btn-next" onclick="nextQuestion()" disabled>Next →</button>
+                </div>
+            </div>
+            
+            <!-- Question 3: Gut Sensitivity -->
+            <div class="question-section" id="question-3">
+                <div class="question">How's your stomach with sports nutrition?</div>
+                <div class="options">
+                    <div class="option" data-value="normal">
+                        <div class="option-title">🟢 Iron Gut</div>
+                        <div class="option-desc">Can handle full-strength mixes without issues</div>
+                    </div>
+                    <div class="option" data-value="sensitive">
+                        <div class="option-title">🟡 Somewhat Sensitive</div>
+                        <div class="option-desc">Sometimes get stomach upset with strong drinks</div>
+                    </div>
+                    <div class="option" data-value="very-sensitive">
+                        <div class="option-title">🔴 Very Sensitive</div>
+                        <div class="option-desc">Need to be careful with concentration</div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion()">← Back</button>
+                    <button class="btn btn-next" onclick="generateRecipe()">Get My Recipe →</button>
+                </div>
+            </div>
+            
+            <!-- Results -->
+            <div class="question-section" id="results">
+                <div id="recipe-output">
+                    <!-- Recipe will be generated here -->
+                </div>
+                <div class="start-over">
+                    <button class="btn-start-over" onclick="startOver()">🔄 Try Different Conditions</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        let answers = {};
+        
+        // Base recipe (500ml bottle)
+        const baseRecipe = {
+            maltodextrin: 30,
+            sugar: 60,
+            sodiumCitrate: 5,
+            mctPowder: 8, // Updated based on Nigel Mitchell's pro team formula
+            flavoring: 0.8
+        };
+        
+        // Recipe adjustments based on answers
+        const adjustments = {
+            // Weather adjustments
+            hot: { 
+                maltodextrin: 0.8, 
+                sugar: 0.9, 
+                sodiumCitrate: 1.4, 
+                mctPowder: 1.0,
+                flavoring: 0.8,
+                note: "Reduced sweetness and boosted electrolytes for hot weather"
+            },
+            moderate: { 
+                maltodextrin: 1.0, 
+                sugar: 1.0, 
+                sodiumCitrate: 1.0, 
+                mctPowder: 1.0,
+                flavoring: 1.0,
+                note: "Perfect base recipe for moderate conditions"
+            },
+            cool: { 
+                maltodextrin: 1.2, 
+                sugar: 1.2, 
+                sodiumCitrate: 1.0, 
+                mctPowder: 1.1,
+                flavoring: 1.2,
+                note: "Higher concentration - your gut can handle more in cool weather"
+            },
+            
+            // Duration/Intensity adjustments
+            'easy-short': { 
+                modifier: 0.8, 
+                note: "Light fuel for easy efforts"
+            },
+            'long-hard': { 
+                modifier: 1.25, 
+                note: "Maximum fuel for sustained performance"
+            },
+            'early-morning': { 
+                modifier: 0.75, 
+                note: "Gentle start for empty stomach"
+            },
+            
+            // Gut sensitivity adjustments  
+            'very-sensitive': { 
+                modifier: 0.7, 
+                note: "Reduced concentration for sensitive stomachs"
+            },
+            'sensitive': { 
+                modifier: 0.85, 
+                note: "Slightly reduced for better tolerance"
+            }
+        };
+        
+        function selectOption(element, questionNum) {
+            // Remove selection from other options in this question
+            const questionDiv = document.getElementById(`question-${questionNum}`);
+            questionDiv.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Select this option
+            element.classList.add('selected');
+            
+            // Store answer
+            const value = element.getAttribute('data-value');
+            answers[`question${questionNum}`] = value;
+            
+            // Enable next button
+            questionDiv.querySelector('.btn-next').disabled = false;
+        }
+        
+        function nextQuestion() {
+            document.getElementById(`question-${currentQuestion}`).classList.remove('active');
+            currentQuestion++;
+            document.getElementById(`question-${currentQuestion}`).classList.add('active');
+            updateProgress();
+        }
+        
+        function prevQuestion() {
+            document.getElementById(`question-${currentQuestion}`).classList.remove('active');
+            currentQuestion--;
+            document.getElementById(`question-${currentQuestion}`).classList.add('active');
+            updateProgress();
+        }
+        
+        function updateProgress() {
+            const progress = ((currentQuestion - 1) / 3) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+        }
+        
+        function generateRecipe() {
+            const weather = answers.question1;
+            const intensity = answers.question2;
+            const gut = answers.question3;
+            
+            // Start with base recipe
+            let recipe = { ...baseRecipe };
+            let notes = [];
+            
+            // Apply weather adjustments
+            const weatherAdj = adjustments[weather];
+            Object.keys(recipe).forEach(ingredient => {
+                if (weatherAdj[ingredient]) {
+                    recipe[ingredient] *= weatherAdj[ingredient];
+                }
+            });
+            notes.push(weatherAdj.note);
+            
+            // Apply intensity modifier
+            if (adjustments[intensity]) {
+                const intensityAdj = adjustments[intensity];
+                if (intensityAdj.modifier) {
+                    Object.keys(recipe).forEach(ingredient => {
+                        if (ingredient !== 'flavoring') { // Don't reduce flavoring too much
+                            recipe[ingredient] *= intensityAdj.modifier;
+                        }
+                    });
+                }
+                notes.push(intensityAdj.note);
+            }
+            
+            // Apply gut sensitivity modifier
+            if (adjustments[gut]) {
+                const gutAdj = adjustments[gut];
+                if (gutAdj.modifier) {
+                    Object.keys(recipe).forEach(ingredient => {
+                        recipe[ingredient] *= gutAdj.modifier;
+                    });
+                }
+                notes.push(gutAdj.note);
+            }
+            
+            // Round to reasonable precision
+            Object.keys(recipe).forEach(ingredient => {
+                recipe[ingredient] = Math.round(recipe[ingredient] * 10) / 10;
+            });
+            
+            // Calculate totals
+            const totalCarbs = recipe.maltodextrin + recipe.sugar;
+            const totalCalories = Math.round(totalCarbs * 4 + recipe.mctPowder * 8); // MCT has ~8 cal/g
+            
+            displayRecipe(recipe, notes, totalCarbs, totalCalories);
+            
+            // Show results
+            document.getElementById('question-3').classList.remove('active');
+            document.getElementById('results').classList.add('active');
+            document.getElementById('progress-fill').style.width = '100%';
+        }
+        
+        function displayRecipe(recipe, notes, totalCarbs, totalCalories) {
+            const recipeHtml = `
+                <div class="recipe-result">
+                    <div class="recipe-title">Your Custom Recipe (500ml bottle)</div>
+                    
+                    <div class="ingredient-list">
+                        <div class="ingredient">
+                            <span class="ingredient-name">🟡 Maltodextrin</span>
+                            <span class="ingredient-amount">${recipe.maltodextrin}g</span>
+                        </div>
+                        <div class="ingredient">
+                            <span class="ingredient-name">🔵 Sugar</span>
+                            <span class="ingredient-amount">${recipe.sugar}g</span>
+                        </div>
+                        <div class="ingredient">
+                            <span class="ingredient-name">🟢 Sodium Citrate</span>
+                            <span class="ingredient-amount">${recipe.sodiumCitrate}g</span>
+                        </div>
+                        <div class="ingredient">
+                            <span class="ingredient-name">⚪ MCT Powder</span>
+                            <span class="ingredient-amount">${recipe.mctPowder}g</span>
+                        </div>
+                        <div class="ingredient">
+                            <span class="ingredient-name">🟠 Flavoring</span>
+                            <span class="ingredient-amount">${recipe.flavoring}g</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: white; padding: 15px; border-radius: 8px; text-align: center; margin: 15px 0;">
+                        <strong>${totalCalories} calories • ${Math.round(totalCarbs)}g carbs • ${Math.round(recipe.sodiumCitrate * 300)}mg sodium</strong>
+                    </div>
+                    
+                    <div class="recipe-notes">
+                        <h4>📝 Why this recipe:</h4>
+                        ${notes.map(note => `<p>• ${note}</p>`).join('')}
+                        <p>• Test this recipe during training before using in an event</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('recipe-output').innerHTML = recipeHtml;
+        }
+        
+        function startOver() {
+            currentQuestion = 1;
+            answers = {};
+            
+            // Reset all sections
+            document.querySelectorAll('.question-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Reset selections
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Reset buttons
+            document.querySelectorAll('.btn-next').forEach(btn => {
+                btn.disabled = true;
+            });
+            
+            // Show first question
+            document.getElementById('question-1').classList.add('active');
+            updateProgress();
+        }
+        
+        // Add click handlers to options
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionNum = this.closest('.question-section').id.split('-')[1];
+                    selectOption(this, questionNum);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -117,6 +117,7 @@
         .blue { background: #42A5F5; }
         .green { background: #66BB6A; }
         .orange { background: #FF7043; }
+        .purple { background: #AB47BC; }
         
         .recipe-box {
             background: #f8f9fa;
@@ -157,32 +158,48 @@
             color: #856404;
         }
         
-        .two-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            font-size: 9px;
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 7px;
+            margin: 8px 0;
         }
         
-        .adjustment-item {
-            background: #f1f8ff;
-            padding: 8px;
-            border-radius: 4px;
-            border-left: 3px solid #2196F3;
-            margin-bottom: 6px;
+        .matrix-table th {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 2px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 6px;
         }
         
-        .adjustment-title {
-            font-weight: 600;
-            color: #1976D2;
-            font-size: 9px;
+        .matrix-table td {
+            padding: 3px 2px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 6px;
         }
         
-        .adjustment-desc {
-            font-size: 8px;
-            margin-top: 3px;
-            color: #555;
+        .matrix-table tr:nth-child(even) {
+            background: #f9f9f9;
         }
+        
+        .scenario {
+            font-weight: bold;
+            background: #f8f9fa !important;
+            text-align: left !important;
+            padding-left: 3px !important;
+            font-size: 6px !important;
+        }
+        
+        .adjustment {
+            font-weight: bold;
+        }
+        
+        .increase { color: #e74c3c; }
+        .decrease { color: #3498db; }
+        .same { color: #7f8c8d; }
         
         .tips-list {
             font-size: 9px;
@@ -215,7 +232,7 @@
 <body>
     <div class="card-container">
         
-        <!-- Card 1: Quick Start Guide -->
+        <!-- Card 1: Quick Start Guide - UPDATED -->
         <div class="card">
             <div class="card-header">
                 <div class="brand">FUELCRAFT</div>
@@ -239,6 +256,10 @@
                         <span class="ingredient-label green">GREEN</span>
                     </li>
                     <li>
+                        <span><span class="ingredient-name">MCT Powder</span> - Sustained energy</span>
+                        <span class="ingredient-label purple">PURPLE</span>
+                    </li>
+                    <li>
                         <span><span class="ingredient-name">Flavoring</span> - Natural taste</span>
                         <span class="ingredient-label orange">ORANGE</span>
                     </li>
@@ -246,78 +267,128 @@
             </div>
             
             <div class="recipe-box">
-                <div class="recipe-title">Basic Mix (Makes 1 Bottle - 500ml)</div>
+                <div class="recipe-title">Base Mix (Makes 1 Bottle - 500ml)</div>
                 <ol class="recipe-steps">
                     <li><strong>Add 500ml (16oz) water</strong> to your bottle</li>
-                    <li><strong>Weigh ingredients</strong> using included scale (optional):
+                    <li><strong>Weigh ingredients</strong> using included scale:
                         <br>• 30g Maltodextrin  • 60g Sugar
-                        <br>• 5g Sodium Citrate  • 0.8g Flavoring</li>
+                        <br>• 5g Sodium Citrate  • 8g MCT Powder
+                        <br>• 0.8g Flavoring</li>
                     <li><strong>Shake vigorously</strong> for 30 seconds</li>
                     <li><strong>Taste test</strong> - adjust next time if needed</li>
                 </ol>
             </div>
             
             <div class="highlight">
-                <strong>Result:</strong> ~400 calories, 95g carbs per bottle
+                <strong>Result:</strong> ~304 calories, 90g carbs, 8g MCT per bottle
+                <br><strong>Pro tip:</strong> MCT powder adds creaminess and sustained energy
             </div>
             
             <div class="footer">
-                Start conservative - you can always adjust! | hello@fuelcraft.com
+                Based on pro cycling team formulations | hello@fuelcraft.com
             </div>
         </div>
         
-        <!-- Card 2: Customization Guide -->
+        <!-- Card 2: Recipe Matrix - REPLACED CUSTOMIZATION GUIDE -->
         <div class="card">
             <div class="card-header">
                 <div class="brand">FUELCRAFT</div>
-                <h1 class="card-title">Customization Guide</h1>
-                <p class="card-subtitle">Adjust for your needs and conditions</p>
+                <h1 class="card-title">Recipe Matrix</h1>
+                <p class="card-subtitle">Adjust base recipe for your conditions</p>
             </div>
             
             <div class="section">
-                <h3 class="section-title">Adjust for Your Needs:</h3>
+                <h3 class="section-title">Start with Base, Then Adjust:</h3>
                 
-                <div class="adjustment-item">
-                    <div class="adjustment-title">🚴 For Longer Rides (3+ hours)</div>
-                    <div class="adjustment-desc">Increase by 25%: 37g malto, 75g sugar, 6g citrate<br>
-                    <em>Why: Your gut adapts and can handle more</em></div>
-                </div>
-                
-                <div class="adjustment-item">
-                    <div class="adjustment-title">🌡️ For Hot Weather</div>
-                    <div class="adjustment-desc">Increase citrate to 7-8g, reduce sugar to 50g<br>
-                    <em>Why: More sodium needed, less sweetness when hot</em></div>
-                </div>
-                
-                <div class="adjustment-item">
-                    <div class="adjustment-title">🤢 For Sensitive Stomach</div>
-                    <div class="adjustment-desc">Reduce by 25%: 22g malto, 45g sugar, 4g citrate<br>
-                    <em>Why: Lower concentration = easier digestion</em></div>
-                </div>
-                
-                <div class="adjustment-item">
-                    <div class="adjustment-title">🎯 Flavor Preferences</div>
-                    <div class="adjustment-desc">More tart: +0.2g flavoring | Less sweet: reduce sugar<br>
-                    Electrolyte boost: +1-2g sodium citrate</div>
-                </div>
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Malto</th>
+                            <th>Sugar</th>
+                            <th>Citrate</th>
+                            <th>MCT</th>
+                            <th>Flavor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="scenario">🌡️ Hot + Easy</td>
+                            <td class="adjustment decrease">24g</td>
+                            <td class="adjustment decrease">48g</td>
+                            <td class="adjustment increase">7g</td>
+                            <td class="adjustment decrease">6g</td>
+                            <td class="adjustment decrease">0.6g</td>
+                        </tr>
+                        <tr>
+                            <td class="scenario">🌡️ Hot + Hard</td>
+                            <td class="adjustment increase">37g</td>
+                            <td class="adjustment same">60g</td>
+                            <td class="adjustment increase">8g</td>
+                            <td class="adjustment same">8g</td>
+                            <td class="adjustment same">0.8g</td>
+                        </tr>
+                        <tr>
+                            <td class="scenario">❄️ Cool + Easy</td>
+                            <td class="adjustment decrease">24g</td>
+                            <td class="adjustment decrease">48g</td>
+                            <td class="adjustment same">5g</td>
+                            <td class="adjustment decrease">6g</td>
+                            <td class="adjustment same">0.8g</td>
+                        </tr>
+                        <tr>
+                            <td class="scenario">❄️ Cool + Hard</td>
+                            <td class="adjustment increase">37g</td>
+                            <td class="adjustment increase">75g</td>
+                            <td class="adjustment same">5g</td>
+                            <td class="adjustment increase">10g</td>
+                            <td class="adjustment increase">1.0g</td>
+                        </tr>
+                        <tr>
+                            <td class="scenario">🌤️ Moderate</td>
+                            <td class="adjustment same">30g</td>
+                            <td class="adjustment same">60g</td>
+                            <td class="adjustment same">5g</td>
+                            <td class="adjustment same">8g</td>
+                            <td class="adjustment same">0.8g</td>
+                        </tr>
+                        <tr>
+                            <td class="scenario">🚴‍♂️ Race Day</td>
+                            <td class="adjustment increase">37g</td>
+                            <td class="adjustment increase">75g</td>
+                            <td class="adjustment increase">6g</td>
+                            <td class="adjustment increase">10g</td>
+                            <td class="adjustment same">0.8g</td>
+                        </tr>
+                        <tr>
+                            <td class="scenario">🌅 Early AM</td>
+                            <td class="adjustment decrease">22g</td>
+                            <td class="adjustment decrease">45g</td>
+                            <td class="adjustment same">5g</td>
+                            <td class="adjustment decrease">6g</td>
+                            <td class="adjustment decrease">0.6g</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             
             <div class="section">
-                <h3 class="section-title">Pro Tips:</h3>
+                <h3 class="section-title">Quick Adjustments:</h3>
                 <ul class="tips-list">
-                    <li><strong>Start conservative</strong> - you can always add more next time</li>
-                    <li><strong>Test during training</strong>, not on race day</li>
-                    <li><strong>Make notes</strong> on what works for different conditions</li>
-                    <li><strong>Room temp water</strong> dissolves faster than cold</li>
+                    <li><strong>Gut issues?</strong> Reduce everything by 15-25%</li>
+                    <li><strong>Hot weather:</strong> ↑ sodium citrate, ↓ sweetness</li>
+                    <li><strong>Long rides:</strong> ↑ carbs if gut tolerates</li>
+                    <li><strong>Cool weather:</strong> Gut handles higher concentration</li>
+                    <li><strong>MCT powder:</strong> Adds creaminess + sustained energy</li>
                 </ul>
             </div>
             
             <div class="footer">
-                Find your perfect formula through experimentation | hello@fuelcraft.com
+                Test adjustments in training, not races | hello@fuelcraft.com
             </div>
         </div>
         
-        <!-- Card 3: Usage & Timing -->
+        <!-- Card 3: Usage & Timing - UNCHANGED -->
         <div class="card">
             <div class="card-header">
                 <div class="brand">FUELCRAFT</div>
@@ -328,7 +399,7 @@
             <div class="section">
                 <h3 class="section-title">When to Drink:</h3>
                 
-                <div class="two-column">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 9px;">
                     <div>
                         <div style="font-weight: 600; color: #4CAF50; margin-bottom: 5px;">⏰ Pre-Ride (30-60 min)</div>
                         <div style="font-size: 8px; margin-bottom: 10px;">
@@ -354,7 +425,7 @@
                         <div style="font-weight: 600; color: #4CAF50; margin-bottom: 5px;">📊 Target Intake</div>
                         <div style="font-size: 8px;">
                             <strong>Endurance rides:</strong> 60-90g carbs/hour<br>
-                            <strong>This mix:</strong> ~95g carbs per bottle
+                            <strong>This mix:</strong> ~90g carbs per bottle
                         </div>
                     </div>
                 </div>
@@ -365,7 +436,7 @@
                 <ul class="tips-list">
                     <li><strong>Add ingredients to water</strong>, not water to ingredients</li>
                     <li><strong>Shake in intervals:</strong> 10 seconds, pause, repeat</li>
-                    <li><strong>Pre-mix dry ingredients</strong> for multiple bottles</li>
+                    <li><strong>MCT powder dissolves easily</strong> - adds nice texture</li>
                     <li><strong>Let sit 2-3 minutes</strong> if mix won't dissolve</li>
                 </ul>
             </div>
@@ -379,7 +450,7 @@
             </div>
         </div>
         
-        <!-- Card 4: Troubleshooting -->
+        <!-- Card 4: Troubleshooting & FAQ - UNCHANGED -->
         <div class="card">
             <div class="card-header">
                 <div class="brand">FUELCRAFT</div>
