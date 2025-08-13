@@ -129,7 +129,6 @@
         }
 
         .product-card.featured::before {
-            content: 'MOST POPULAR';
             position: absolute;
             top: 15px;
             right: -30px;
@@ -483,7 +482,9 @@
             
             return `
                 <div class="product-card ${featuredClass}">
-                    <div class="product-image">${getProductEmoji(product.category)}</div>
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
                     <div class="product-info">
                         <h3 class="product-name">${product.name}</h3>
                         <p class="product-description">${product.description}</p>
@@ -694,7 +695,7 @@
 
         function calculateSavings(product) {
             // Assuming premium brands cost ~$3.50 per serving
-            const premiumCostPerServing = 3.50;
+            const premiumCostPerServing = 3.5;
             const ourCostPerServing = product.price / product.nutritional_info.servings;
             const savingsPerServing = premiumCostPerServing - ourCostPerServing;
             const totalSavings = savingsPerServing * product.nutritional_info.servings;
