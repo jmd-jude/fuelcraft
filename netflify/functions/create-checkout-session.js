@@ -5,6 +5,9 @@ exports.handler = async (event, context) => {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ message: 'Function is working!' })
+        body: JSON.stringify({ 
+            message: 'Function is working!',
+            method: event.httpMethod 
+        })
     };
 };
