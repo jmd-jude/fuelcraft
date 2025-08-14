@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FuelCraft Instruction Cards</title>
+    <title>FuelCraft Simplified Instruction Cards</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         
@@ -29,11 +29,13 @@
             background: white;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            padding: 0.3in;
+            padding: 0.25in;
             box-sizing: border-box;
             margin-bottom: 30px;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         
         .card::before {
@@ -75,7 +77,8 @@
         }
         
         .section {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
         }
         
         .section-title {
@@ -87,62 +90,126 @@
             letter-spacing: 0.5px;
         }
         
-        .ingredient-list {
-            font-size: 9px;
+        .scoop-list {
+            font-size: 10px;
             margin: 0;
             padding: 0;
             list-style: none;
         }
         
-        .ingredient-list li {
-            margin-bottom: 4px;
+        .scoop-list li {
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 4px 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
         }
         
         .ingredient-name {
             font-weight: 600;
         }
         
-        .ingredient-label {
-            padding: 2px 6px;
-            border-radius: 3px;
+        .scoop-visual {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .scoop-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             font-size: 8px;
-            font-weight: 600;
+            font-weight: bold;
             color: white;
         }
         
         .yellow { background: #FFA726; }
         .blue { background: #42A5F5; }
         .green { background: #66BB6A; }
-        .orange { background: #FF7043; }
         .purple { background: #AB47BC; }
+        .orange { background: #FF7043; }
         
-        .recipe-box {
-            background: #f8f9fa;
+        .base-recipe-box {
+            background: #e8f5e8;
             border: 2px solid #4CAF50;
-            border-radius: 6px;
-            padding: 12px;
-            margin: 10px 0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 12px 0;
         }
         
         .recipe-title {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: #4CAF50;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             text-align: center;
         }
         
-        .recipe-steps {
-            font-size: 9px;
-            margin: 0;
-            padding-left: 15px;
+        .scoop-combo {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+            flex-wrap: wrap;
         }
         
-        .recipe-steps li {
+        .scoop-group {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        .scoop-count {
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 2px;
+        }
+        
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        
+        .recipe-card {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .recipe-name {
+            font-size: 9px;
+            font-weight: 600;
+            color: #2c3e50;
             margin-bottom: 4px;
+        }
+        
+        .mini-scoop-combo {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+            margin: 4px 0;
+        }
+        
+        .mini-scoop {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 7px;
+            font-weight: bold;
+            color: white;
         }
         
         .highlight {
@@ -158,49 +225,6 @@
             color: #856404;
         }
         
-        .matrix-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 7px;
-            margin: 8px 0;
-        }
-        
-        .matrix-table th {
-            background: #4CAF50;
-            color: white;
-            padding: 4px 2px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 6px;
-        }
-        
-        .matrix-table td {
-            padding: 3px 2px;
-            border: 1px solid #ddd;
-            text-align: center;
-            font-size: 6px;
-        }
-        
-        .matrix-table tr:nth-child(even) {
-            background: #f9f9f9;
-        }
-        
-        .scenario {
-            font-weight: bold;
-            background: #f8f9fa !important;
-            text-align: left !important;
-            padding-left: 3px !important;
-            font-size: 6px !important;
-        }
-        
-        .adjustment {
-            font-weight: bold;
-        }
-        
-        .increase { color: #e74c3c; }
-        .decrease { color: #3498db; }
-        .same { color: #7f8c8d; }
-        
         .tips-list {
             font-size: 9px;
             margin: 0;
@@ -213,14 +237,14 @@
         
         .footer {
             position: absolute;
-            bottom: 15px;
-            left: 25px;
-            right: 25px;
+            bottom: 8px;
+            left: 18px;
+            right: 18px;
             text-align: center;
-            font-size: 8px;
+            font-size: 7px;
             color: #7f8c8d;
             border-top: 1px solid #eee;
-            padding-top: 8px;
+            padding-top: 5px;
         }
         
         @media print {
@@ -232,7 +256,7 @@
 <body>
     <div class="card-container">
         
-        <!-- Card 1: Quick Start Guide - UPDATED -->
+        <!-- Card 1: Quick Start Guide - SIMPLIFIED -->
         <div class="card">
             <div class="card-header">
                 <div class="brand">FUELCRAFT</div>
@@ -242,276 +266,414 @@
             
             <div class="section">
                 <h3 class="section-title">Your Kit Contains:</h3>
-                <ul class="ingredient-list">
+                <ul class="scoop-list">
                     <li>
                         <span><span class="ingredient-name">Maltodextrin</span> - Fast-absorbing carbs</span>
-                        <span class="ingredient-label yellow">YELLOW</span>
+                        <div class="scoop-visual">
+                            <span class="scoop-icon yellow">Y</span>
+                            <span style="font-size: 8px;">Yellow Scoop</span>
+                        </div>
                     </li>
                     <li>
                         <span><span class="ingredient-name">Sugar</span> - Quick energy + taste</span>
-                        <span class="ingredient-label blue">BLUE</span>
+                        <div class="scoop-visual">
+                            <span class="scoop-icon blue">B</span>
+                            <span style="font-size: 8px;">Blue Scoop</span>
+                        </div>
                     </li>
                     <li>
                         <span><span class="ingredient-name">Sodium Citrate</span> - Electrolytes</span>
-                        <span class="ingredient-label green">GREEN</span>
+                        <div class="scoop-visual">
+                            <span class="scoop-icon green">G</span>
+                            <span style="font-size: 8px;">Green Scoop</span>
+                        </div>
                     </li>
                     <li>
                         <span><span class="ingredient-name">MCT Powder</span> - Sustained energy</span>
-                        <span class="ingredient-label purple">PURPLE</span>
+                        <div class="scoop-visual">
+                            <span class="scoop-icon purple">P</span>
+                            <span style="font-size: 8px;">Purple Scoop</span>
+                        </div>
                     </li>
                     <li>
                         <span><span class="ingredient-name">Flavoring</span> - Natural taste</span>
-                        <span class="ingredient-label orange">ORANGE</span>
+                        <div class="scoop-visual">
+                            <span class="scoop-icon orange">O</span>
+                            <span style="font-size: 8px;">Orange Scoop</span>
+                        </div>
                     </li>
                 </ul>
             </div>
             
-            <div class="recipe-box">
+            <div class="base-recipe-box">
                 <div class="recipe-title">Base Mix (Makes 1 Bottle - 500ml)</div>
-                <ol class="recipe-steps">
+                
+                <div class="scoop-combo">
+                    <div class="scoop-group">
+                        <span class="scoop-count">2</span>
+                        <span class="scoop-icon yellow">Y</span>
+                    </div>
+                    <div class="scoop-group">
+                        <span class="scoop-count">4</span>
+                        <span class="scoop-icon blue">B</span>
+                    </div>
+                    <div class="scoop-group">
+                        <span class="scoop-count">1</span>
+                        <span class="scoop-icon green">G</span>
+                    </div>
+                    <div class="scoop-group">
+                        <span class="scoop-count">1</span>
+                        <span class="scoop-icon purple">P</span>
+                    </div>
+                    <div class="scoop-group">
+                        <span class="scoop-count">1</span>
+                        <span class="scoop-icon orange">O</span>
+                    </div>
+                </div>
+                
+                <ol style="font-size: 9px; padding-left: 15px; margin: 8px 0;">
                     <li><strong>Add 500ml (16oz) water</strong> to your bottle</li>
-                    <li><strong>Weigh ingredients</strong> using included scale:
-                        <br>• 30g Maltodextrin  • 60g Sugar
-                        <br>• 5g Sodium Citrate  • 8g MCT Powder
-                        <br>• 0.8g Flavoring</li>
+                    <li><strong>Add scoops</strong> in any order</li>
                     <li><strong>Shake vigorously</strong> for 30 seconds</li>
                     <li><strong>Taste test</strong> - adjust next time if needed</li>
                 </ol>
             </div>
             
             <div class="highlight">
-                <strong>Result:</strong> ~304 calories, 90g carbs, 8g MCT per bottle
-                <br><strong>Pro tip:</strong> MCT powder adds creaminess and sustained energy
+                <strong>Result:</strong> ~300 calories, 90g carbs per bottle
+                <br><strong>Pro tip:</strong> Purple scoop adds creaminess and sustained energy
             </div>
             
             <div class="footer">
-                Based on pro cycling team formulations | hello@fuelcraft.com
+                No measuring, no math, just mix and go! | hello@fuelcraft.com
             </div>
         </div>
         
-        <!-- Card 2: Recipe Matrix - REPLACED CUSTOMIZATION GUIDE -->
+        <!-- Card 2: Recipe Quick Reference -->
         <div class="card">
             <div class="card-header">
                 <div class="brand">FUELCRAFT</div>
-                <h1 class="card-title">Recipe Matrix</h1>
-                <p class="card-subtitle">Adjust base recipe for your conditions</p>
+                <h1 class="card-title">Recipe Quick Reference</h1>
+                <p class="card-subtitle">Pick your situation, grab your scoops</p>
             </div>
             
             <div class="section">
-                <h3 class="section-title">Start with Base, Then Adjust:</h3>
+                <h3 class="section-title">Popular Combinations:</h3>
                 
-                <table class="matrix-table">
-                    <thead>
-                        <tr>
-                            <th>Scenario</th>
-                            <th>Malto</th>
-                            <th>Sugar</th>
-                            <th>Citrate</th>
-                            <th>MCT</th>
-                            <th>Flavor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="scenario">🌡️ Hot + Easy</td>
-                            <td class="adjustment decrease">24g</td>
-                            <td class="adjustment decrease">48g</td>
-                            <td class="adjustment increase">7g</td>
-                            <td class="adjustment decrease">6g</td>
-                            <td class="adjustment decrease">0.6g</td>
-                        </tr>
-                        <tr>
-                            <td class="scenario">🌡️ Hot + Hard</td>
-                            <td class="adjustment increase">37g</td>
-                            <td class="adjustment same">60g</td>
-                            <td class="adjustment increase">8g</td>
-                            <td class="adjustment same">8g</td>
-                            <td class="adjustment same">0.8g</td>
-                        </tr>
-                        <tr>
-                            <td class="scenario">❄️ Cool + Easy</td>
-                            <td class="adjustment decrease">24g</td>
-                            <td class="adjustment decrease">48g</td>
-                            <td class="adjustment same">5g</td>
-                            <td class="adjustment decrease">6g</td>
-                            <td class="adjustment same">0.8g</td>
-                        </tr>
-                        <tr>
-                            <td class="scenario">❄️ Cool + Hard</td>
-                            <td class="adjustment increase">37g</td>
-                            <td class="adjustment increase">75g</td>
-                            <td class="adjustment same">5g</td>
-                            <td class="adjustment increase">10g</td>
-                            <td class="adjustment increase">1.0g</td>
-                        </tr>
-                        <tr>
-                            <td class="scenario">🌤️ Moderate</td>
-                            <td class="adjustment same">30g</td>
-                            <td class="adjustment same">60g</td>
-                            <td class="adjustment same">5g</td>
-                            <td class="adjustment same">8g</td>
-                            <td class="adjustment same">0.8g</td>
-                        </tr>
-                        <tr>
-                            <td class="scenario">🚴‍♂️ Race Day</td>
-                            <td class="adjustment increase">37g</td>
-                            <td class="adjustment increase">75g</td>
-                            <td class="adjustment increase">6g</td>
-                            <td class="adjustment increase">10g</td>
-                            <td class="adjustment same">0.8g</td>
-                        </tr>
-                        <tr>
-                            <td class="scenario">🌅 Early AM</td>
-                            <td class="adjustment decrease">22g</td>
-                            <td class="adjustment decrease">45g</td>
-                            <td class="adjustment same">5g</td>
-                            <td class="adjustment decrease">6g</td>
-                            <td class="adjustment decrease">0.6g</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="recipe-grid">
+                    <div class="recipe-card">
+                        <div class="recipe-name">🌡️ Hot Weather</div>
+                        <div class="mini-scoop-combo">
+                            <span class="mini-scoop yellow">1</span>
+                            <span class="mini-scoop blue">3</span>
+                            <span class="mini-scoop green">2</span>
+                            <span class="mini-scoop purple">1</span>
+                            <span class="mini-scoop orange">1</span>
+                        </div>
+                        <div style="font-size: 7px; color: #666;">More electrolytes, less sweet</div>
+                    </div>
+                    
+                    <div class="recipe-card">
+                        <div class="recipe-name">❄️ Cool Weather</div>
+                        <div class="mini-scoop-combo">
+                            <span class="mini-scoop yellow">3</span>
+                            <span class="mini-scoop blue">5</span>
+                            <span class="mini-scoop green">1</span>
+                            <span class="mini-scoop purple">1</span>
+                            <span class="mini-scoop orange">1</span>
+                        </div>
+                        <div style="font-size: 7px; color: #666;">Higher energy, gut tolerates more</div>
+                    </div>
+                    
+                    <div class="recipe-card">
+                        <div class="recipe-name">🚴‍♂️ Race Day</div>
+                        <div class="mini-scoop-combo">
+                            <span class="mini-scoop yellow">3</span>
+                            <span class="mini-scoop blue">5</span>
+                            <span class="mini-scoop green">1</span>
+                            <span class="mini-scoop purple">2</span>
+                            <span class="mini-scoop orange">1</span>
+                        </div>
+                        <div style="font-size: 7px; color: #666;">Maximum fuel for performance</div>
+                    </div>
+                    
+                    <div class="recipe-card">
+                        <div class="recipe-name">🌅 Easy Morning</div>
+                        <div class="mini-scoop-combo">
+                            <span class="mini-scoop yellow">1</span>
+                            <span class="mini-scoop blue">3</span>
+                            <span class="mini-scoop green">1</span>
+                            <span class="mini-scoop purple">1</span>
+                            <span class="mini-scoop orange">1</span>
+                        </div>
+                        <div style="font-size: 7px; color: #666;">Gentle on empty stomach</div>
+                    </div>
+                    
+                    <div class="recipe-card">
+                        <div class="recipe-name">⛳ Golf Endurance</div>
+                        <div class="mini-scoop-combo">
+                            <span class="mini-scoop yellow">2</span>
+                            <span class="mini-scoop blue">3</span>
+                            <span class="mini-scoop green">1</span>
+                            <span class="mini-scoop purple">3</span>
+                            <span class="mini-scoop orange">1</span>
+                        </div>
+                        <div style="font-size: 7px; color: #666;">Sustained energy, no peaks/valleys</div>
+                    </div>
+                    
+                    <div class="recipe-card">
+                        <div class="recipe-name">🏃‍♀️ Long Run</div>
+                        <div class="mini-scoop-combo">
+                            <span class="mini-scoop yellow">2</span>
+                            <span class="mini-scoop blue">4</span>
+                            <span class="mini-scoop green">1</span>
+                            <span class="mini-scoop purple">1</span>
+                            <span class="mini-scoop orange">1</span>
+                        </div>
+                        <div style="font-size: 7px; color: #666;">Steady fuel for distance</div>
+                    </div>
+                </div>
             </div>
             
             <div class="section">
                 <h3 class="section-title">Quick Adjustments:</h3>
                 <ul class="tips-list">
-                    <li><strong>Gut issues?</strong> Reduce everything by 15-25%</li>
-                    <li><strong>Hot weather:</strong> ↑ sodium citrate, ↓ sweetness</li>
-                    <li><strong>Long rides:</strong> ↑ carbs if gut tolerates</li>
-                    <li><strong>Cool weather:</strong> Gut handles higher concentration</li>
-                    <li><strong>MCT powder:</strong> Adds creaminess + sustained energy</li>
+                    <li><strong>Too sweet?</strong> Reduce blue scoops next time</li>
+                    <li><strong>Stomach issues?</strong> Start with 1 less of yellow and blue</li>
+                    <li><strong>Need more energy?</strong> Add 1 yellow, 1 blue</li>
+                    <li><strong>Hot day?</strong> Add 1 green scoop for extra electrolytes</li>
+                    <li><strong>Want creamier?</strong> Add 1 purple scoop</li>
                 </ul>
             </div>
             
             <div class="footer">
-                Test adjustments in training, not races | hello@fuelcraft.com
+                Start simple, adjust based on experience | hello@fuelcraft.com
             </div>
         </div>
         
-        <!-- Card 3: Usage & Timing - UNCHANGED -->
+        <!-- Card 3: Sport-Specific Recipes -->
         <div class="card">
             <div class="card-header">
                 <div class="brand">FUELCRAFT</div>
-                <h1 class="card-title">Usage & Timing Guide</h1>
-                <p class="card-subtitle">When and how to fuel for optimal performance</p>
+                <h1 class="card-title">Sport-Specific Recipes</h1>
+                <p class="card-subtitle">Optimized for your activity</p>
             </div>
             
             <div class="section">
-                <h3 class="section-title">When to Drink:</h3>
+                <h3 class="section-title">🚴‍♂️ Cycling Focus:</h3>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 9px;">
-                    <div>
-                        <div style="font-weight: 600; color: #4CAF50; margin-bottom: 5px;">⏰ Pre-Ride (30-60 min)</div>
-                        <div style="font-size: 8px; margin-bottom: 10px;">
-                            Half-strength mix<br>
-                            Tops off energy without GI distress
+                <div class="recipe-card" style="margin-bottom: 10px;">
+                    <div class="recipe-name">Training Ride (2-3 hours)</div>
+                    <div class="scoop-combo" style="justify-content: center; margin: 8px 0;">
+                        <div class="scoop-group">
+                            <span class="scoop-count">2</span>
+                            <span class="scoop-icon yellow">Y</span>
                         </div>
-                        
-                        <div style="font-weight: 600; color: #4CAF50; margin-bottom: 5px;">🚴 During Ride</div>
-                        <div style="font-size: 8px; margin-bottom: 10px;">
-                            <strong>First hour:</strong> Sip lightly or skip<br>
-                            <strong>Hour 2+:</strong> Full strength<br>
-                            <strong>Long rides:</strong> Start weak, strengthen
+                        <div class="scoop-group">
+                            <span class="scoop-count">4</span>
+                            <span class="scoop-icon blue">B</span>
                         </div>
-                    </div>
-                    
-                    <div>
-                        <div style="font-weight: 600; color: #4CAF50; margin-bottom: 5px;">🏁 Post-Ride (within 30 min)</div>
-                        <div style="font-size: 8px; margin-bottom: 10px;">
-                            Full-strength + consider protein<br>
-                            Critical recovery window
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon green">G</span>
                         </div>
-                        
-                        <div style="font-weight: 600; color: #4CAF50; margin-bottom: 5px;">📊 Target Intake</div>
-                        <div style="font-size: 8px;">
-                            <strong>Endurance rides:</strong> 60-90g carbs/hour<br>
-                            <strong>This mix:</strong> ~90g carbs per bottle
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon purple">P</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon orange">O</span>
                         </div>
                     </div>
+                    <div style="font-size: 8px; color: #666;">Perfect base recipe for moderate efforts</div>
+                </div>
+                
+                <div class="recipe-card" style="margin-bottom: 10px;">
+                    <div class="recipe-name">Century Ride / Sportive</div>
+                    <div class="scoop-combo" style="justify-content: center; margin: 8px 0;">
+                        <div class="scoop-group">
+                            <span class="scoop-count">3</span>
+                            <span class="scoop-icon yellow">Y</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">5</span>
+                            <span class="scoop-icon blue">B</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon green">G</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">2</span>
+                            <span class="scoop-icon purple">P</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon orange">O</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 8px; color: #666;">Maximum fuel for long distance</div>
                 </div>
             </div>
             
             <div class="section">
-                <h3 class="section-title">Mixing Tips:</h3>
-                <ul class="tips-list">
-                    <li><strong>Add ingredients to water</strong>, not water to ingredients</li>
-                    <li><strong>Shake in intervals:</strong> 10 seconds, pause, repeat</li>
-                    <li><strong>MCT powder dissolves easily</strong> - adds nice texture</li>
-                    <li><strong>Let sit 2-3 minutes</strong> if mix won't dissolve</li>
-                </ul>
-            </div>
-            
-            <div class="highlight">
-                <strong>Remember:</strong> These are guidelines. Listen to your body and adjust based on your response, conditions, and experience.
-            </div>
-            
-            <div class="footer">
-                Fuel smart, ride strong | hello@fuelcraft.com
-            </div>
-        </div>
-        
-        <!-- Card 4: Troubleshooting & FAQ - UNCHANGED -->
-        <div class="card">
-            <div class="card-header">
-                <div class="brand">FUELCRAFT</div>
-                <h1 class="card-title">Troubleshooting & FAQ</h1>
-                <p class="card-subtitle">Common issues and solutions</p>
+                <h3 class="section-title">🏃‍♀️ Running Focus:</h3>
+                
+                <div class="recipe-card" style="margin-bottom: 10px;">
+                    <div class="recipe-name">Half Marathon</div>
+                    <div class="scoop-combo" style="justify-content: center; margin: 8px 0;">
+                        <div class="scoop-group">
+                            <span class="scoop-count">2</span>
+                            <span class="scoop-icon yellow">Y</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">4</span>
+                            <span class="scoop-icon blue">B</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon green">G</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon orange">O</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 8px; color: #666;">Light on stomach, quick absorption</div>
+                </div>
+                
+                <div class="recipe-card" style="margin-bottom: 10px;">
+                    <div class="recipe-name">Marathon / Ultra</div>
+                    <div class="scoop-combo" style="justify-content: center; margin: 8px 0;">
+                        <div class="scoop-group">
+                            <span class="scoop-count">2</span>
+                            <span class="scoop-icon yellow">Y</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">3</span>
+                            <span class="scoop-icon blue">B</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">2</span>
+                            <span class="scoop-icon green">G</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon purple">P</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon orange">O</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 8px; color: #666;">Extra electrolytes for sweating</div>
+                </div>
             </div>
             
             <div class="section">
-                <h3 class="section-title">Common Issues:</h3>
+                <h3 class="section-title">⛳ Golf Endurance:</h3>
+                
+                <div class="recipe-card">
+                    <div class="recipe-name">18-Hole Focus Mix</div>
+                    <div class="scoop-combo" style="justify-content: center; margin: 8px 0;">
+                        <div class="scoop-group">
+                            <span class="scoop-count">2</span>
+                            <span class="scoop-icon yellow">Y</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">3</span>
+                            <span class="scoop-icon blue">B</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon green">G</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">3</span>
+                            <span class="scoop-icon purple">P</span>
+                        </div>
+                        <div class="scoop-group">
+                            <span class="scoop-count">1</span>
+                            <span class="scoop-icon orange">O</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 8px; color: #666;">Sustained mental energy, avoid sugar crashes</div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                Test recipes in practice before competition | hello@fuelcraft.com
+            </div>
+        </div>
+        
+        <!-- Card 4: Troubleshooting - SIMPLIFIED -->
+        <div class="card">
+            <div class="card-header">
+                <div class="brand">FUELCRAFT</div>
+                <h1 class="card-title">Troubleshooting & Tips</h1>
+                <p class="card-subtitle">Common issues and simple fixes</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Quick Fixes:</h3>
                 
                 <div style="font-size: 9px;">
-                    <div style="margin-bottom: 8px;">
-                        <strong style="color: #e74c3c;">❌ Mix Won't Dissolve</strong><br>
-                        • Use room temperature water first<br>
-                        • Add ingredients slowly while shaking<br>
-                        • Let sit 2-3 minutes, then shake again
+                    <div style="margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 4px;">
+                        <strong style="color: #e74c3c;">❌ Won't Mix Properly</strong><br>
+                        • Add ingredients to water, not water to ingredients<br>
+                        • Shake in bursts: 10 seconds, pause, repeat<br>
+                        • Let sit 2 minutes, then shake again
                     </div>
                     
-                    <div style="margin-bottom: 8px;">
-                        <strong style="color: #e74c3c;">😵 Too Sweet/Salty</strong><br>
-                        • Next time: reduce sugar or citrate by 20%<br>
-                        • Current bottle: add more water
+                    <div style="margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 4px;">
+                        <strong style="color: #e74c3c;">😵 Too Sweet</strong><br>
+                        • Next time: Use 1 fewer blue scoop<br>
+                        • Current bottle: Add more water
                     </div>
                     
-                    <div style="margin-bottom: 8px;">
+                    <div style="margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 4px;">
                         <strong style="color: #e74c3c;">🤢 Stomach Issues</strong><br>
-                        • Reduce concentration by 25%<br>
-                        • Drink more slowly<br>
-                        • Try half-strength for first hour
+                        • Try "Easy Morning" recipe first<br>
+                        • Reduce by 1 yellow + 1 blue scoop<br>
+                        • Drink more slowly
                     </div>
                     
-                    <div style="margin-bottom: 8px;">
+                    <div style="margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 4px;">
                         <strong style="color: #e74c3c;">😐 Tastes Bland</strong><br>
-                        • Add 0.2g more flavoring<br>
-                        • Try mixing flavors (half lemon, half lime)
+                        • Add 1 more orange scoop<br>
+                        • Try mixing flavor packets
                     </div>
                 </div>
             </div>
             
             <div class="section">
-                <h3 class="section-title">When to Adjust Recipe:</h3>
+                <h3 class="section-title">Customization Tips:</h3>
                 <ul class="tips-list">
-                    <li><strong>Every 2-3 rides</strong> until you find your sweet spot</li>
-                    <li><strong>Seasonally</strong> as weather changes</li>
-                    <li><strong>By ride type</strong> (easy vs hard, short vs long)</li>
-                    <li><strong>Based on experience</strong> - trust your body's feedback</li>
+                    <li><strong>Start conservative</strong> - easier to add than subtract</li>
+                    <li><strong>Adjust one scoop at a time</strong> between rides</li>
+                    <li><strong>Write down what works</strong> for different conditions</li>
+                    <li><strong>Hot weather?</strong> Always add 1 extra green scoop</li>
+                    <li><strong>Long rides?</strong> Test higher concentrations in training first</li>
                 </ul>
             </div>
             
             <div class="section">
                 <h3 class="section-title">Storage & Safety:</h3>
                 <ul class="tips-list">
-                    <li>Keep ingredients dry - moisture causes clumping</li>
-                    <li>Seal pouches tightly after each use</li>
+                    <li>Keep ingredient bags sealed and dry</li>
+                    <li>Clean scoops after each use</li>
                     <li>Use within 6 months for best quality</li>
-                    <li>Clean scale regularly for accurate measurements</li>
+                    <li>When in doubt, start with base recipe</li>
                 </ul>
             </div>
             
+            <div class="highlight">
+                <strong>Remember:</strong> Every athlete is different. These are starting points - adjust based on your body's response and experience.
+            </div>
+            
             <div class="footer">
-                Still have questions? We're cyclists too! | hello@fuelcraft.com
+                Simple scoops, better performance | hello@fuelcraft.com
             </div>
         </div>
     </div>

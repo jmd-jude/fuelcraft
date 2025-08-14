@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Recipe Builder - FuelCraft</title>
+    <title>FuelCraft Scoop Recipe Builder</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -159,31 +159,72 @@
             text-align: center;
         }
         
-        .ingredient-list {
-            display: grid;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .ingredient {
+        .scoop-combo-large {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #4CAF50;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
         }
         
-        .ingredient-name {
+        .scoop-group-large {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .scoop-count-large {
+            font-size: 3em;
             font-weight: bold;
             color: #2c3e50;
         }
         
-        .ingredient-amount {
-            font-size: 1.1em;
+        .scoop-icon-large {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
             font-weight: bold;
-            color: #4CAF50;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .scoop-label {
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+        
+        .yellow { background: #FFA726; }
+        .blue { background: #42A5F5; }
+        .green { background: #66BB6A; }
+        .purple { background: #AB47BC; }
+        .orange { background: #FF7043; }
+        
+        .recipe-instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .recipe-instructions h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .recipe-instructions ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .recipe-instructions li {
+            margin-bottom: 8px;
+            font-size: 0.95em;
         }
         
         .recipe-notes {
@@ -235,13 +276,27 @@
             background: #4CAF50;
             transition: width 0.3s ease;
         }
+        
+        .recipe-stats {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+        
+        .recipe-stats strong {
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧪 Custom Recipe Builder</h1>
-            <p>Answer 3 quick questions to get your perfect fuel mix</p>
+            <h1>🥤 Scoop Recipe Builder</h1>
+            <p>Answer 3 questions to get your perfect scoop combination</p>
         </div>
         
         <div class="content">
@@ -274,7 +329,7 @@
             
             <!-- Question 2: Duration & Intensity -->
             <div class="question-section" id="question-2">
-                <div class="question">What kind of ride are you planning?</div>
+                <div class="question">What kind of activity are you planning?</div>
                 <div class="options">
                     <div class="option" data-value="easy-short">
                         <div class="option-title">🚴‍♀️ Easy & Short (under 2 hours)</div>
@@ -287,6 +342,10 @@
                     <div class="option" data-value="long-hard">
                         <div class="option-title">💪 Long & Hard (4+ hours or race pace)</div>
                         <div class="option-desc">Maximum fuel for performance</div>
+                    </div>
+                    <div class="option" data-value="golf">
+                        <div class="option-title">⛳ Golf (18 holes, 4-5 hours)</div>
+                        <div class="option-desc">Sustained mental energy, avoid sugar crashes</div>
                     </div>
                     <div class="option" data-value="early-morning">
                         <div class="option-title">🌅 Early Morning Start</div>
@@ -338,65 +397,69 @@
         let currentQuestion = 1;
         let answers = {};
         
-        // Base recipe (500ml bottle)
+        // Base recipe in scoops
         const baseRecipe = {
-            maltodextrin: 30,
-            sugar: 60,
-            sodiumCitrate: 5,
-            mctPowder: 8, // Updated based on Nigel Mitchell's pro team formula
-            flavoring: 0.8
+            yellow: 2,    // Maltodextrin
+            blue: 4,      // Sugar
+            green: 1,     // Sodium Citrate
+            purple: 1,    // MCT Powder
+            orange: 1     // Flavoring
         };
         
-        // Recipe adjustments based on answers
+        // Recipe adjustments based on answers (now in scoop modifications)
         const adjustments = {
             // Weather adjustments
             hot: { 
-                maltodextrin: 0.8, 
-                sugar: 0.9, 
-                sodiumCitrate: 1.4, 
-                mctPowder: 1.0,
-                flavoring: 0.8,
-                note: "Reduced sweetness and boosted electrolytes for hot weather"
+                yellow: -1, 
+                blue: -1, 
+                green: +1, 
+                purple: 0,
+                orange: 0,
+                note: "Less sweetness, extra electrolytes for hot weather"
             },
             moderate: { 
-                maltodextrin: 1.0, 
-                sugar: 1.0, 
-                sodiumCitrate: 1.0, 
-                mctPowder: 1.0,
-                flavoring: 1.0,
+                yellow: 0, 
+                blue: 0, 
+                green: 0, 
+                purple: 0,
+                orange: 0,
                 note: "Perfect base recipe for moderate conditions"
             },
             cool: { 
-                maltodextrin: 1.2, 
-                sugar: 1.2, 
-                sodiumCitrate: 1.0, 
-                mctPowder: 1.1,
-                flavoring: 1.2,
-                note: "Higher concentration - your gut can handle more in cool weather"
+                yellow: +1, 
+                blue: +1, 
+                green: 0, 
+                purple: 0,
+                orange: 0,
+                note: "Higher energy - your gut can handle more in cool weather"
             },
             
             // Duration/Intensity adjustments
             'easy-short': { 
-                modifier: 0.8, 
+                modifier: { yellow: -1, blue: -1, green: 0, purple: 0, orange: 0 },
                 note: "Light fuel for easy efforts"
             },
             'long-hard': { 
-                modifier: 1.25, 
+                modifier: { yellow: +1, blue: +1, green: 0, purple: +1, orange: 0 },
                 note: "Maximum fuel for sustained performance"
             },
+            'golf': { 
+                modifier: { yellow: 0, blue: -1, green: 0, purple: +2, orange: 0 },
+                note: "Extra MCT for sustained mental energy, less sugar to avoid crashes"
+            },
             'early-morning': { 
-                modifier: 0.75, 
+                modifier: { yellow: -1, blue: -1, green: 0, purple: 0, orange: 0 },
                 note: "Gentle start for empty stomach"
             },
             
             // Gut sensitivity adjustments  
             'very-sensitive': { 
-                modifier: 0.7, 
+                modifier: { yellow: -1, blue: -1, green: 0, purple: -1, orange: 0 },
                 note: "Reduced concentration for sensitive stomachs"
             },
             'sensitive': { 
-                modifier: 0.85, 
-                note: "Slightly reduced for better tolerance"
+                modifier: { yellow: 0, blue: -1, green: 0, purple: 0, orange: 0 },
+                note: "Slightly reduced sweetness for better tolerance"
             }
         };
         
@@ -448,47 +511,45 @@
             
             // Apply weather adjustments
             const weatherAdj = adjustments[weather];
-            Object.keys(recipe).forEach(ingredient => {
-                if (weatherAdj[ingredient]) {
-                    recipe[ingredient] *= weatherAdj[ingredient];
+            Object.keys(recipe).forEach(scoop => {
+                if (weatherAdj[scoop] !== undefined) {
+                    recipe[scoop] += weatherAdj[scoop];
                 }
             });
             notes.push(weatherAdj.note);
             
-            // Apply intensity modifier
-            if (adjustments[intensity]) {
-                const intensityAdj = adjustments[intensity];
-                if (intensityAdj.modifier) {
-                    Object.keys(recipe).forEach(ingredient => {
-                        if (ingredient !== 'flavoring') { // Don't reduce flavoring too much
-                            recipe[ingredient] *= intensityAdj.modifier;
-                        }
-                    });
-                }
-                notes.push(intensityAdj.note);
+            // Apply intensity adjustments
+            if (adjustments[intensity] && adjustments[intensity].modifier) {
+                const intensityAdj = adjustments[intensity].modifier;
+                Object.keys(recipe).forEach(scoop => {
+                    if (intensityAdj[scoop] !== undefined) {
+                        recipe[scoop] += intensityAdj[scoop];
+                    }
+                });
+                notes.push(adjustments[intensity].note);
             }
             
-            // Apply gut sensitivity modifier
-            if (adjustments[gut]) {
-                const gutAdj = adjustments[gut];
-                if (gutAdj.modifier) {
-                    Object.keys(recipe).forEach(ingredient => {
-                        recipe[ingredient] *= gutAdj.modifier;
-                    });
-                }
-                notes.push(gutAdj.note);
+            // Apply gut sensitivity adjustments
+            if (adjustments[gut] && adjustments[gut].modifier) {
+                const gutAdj = adjustments[gut].modifier;
+                Object.keys(recipe).forEach(scoop => {
+                    if (gutAdj[scoop] !== undefined) {
+                        recipe[scoop] += gutAdj[scoop];
+                    }
+                });
+                notes.push(adjustments[gut].note);
             }
             
-            // Round to reasonable precision
-            Object.keys(recipe).forEach(ingredient => {
-                recipe[ingredient] = Math.round(recipe[ingredient] * 10) / 10;
+            // Ensure minimum values (can't have negative scoops)
+            Object.keys(recipe).forEach(scoop => {
+                recipe[scoop] = Math.max(0, recipe[scoop]);
             });
             
-            // Calculate totals
-            const totalCarbs = recipe.maltodextrin + recipe.sugar;
-            const totalCalories = Math.round(totalCarbs * 4 + recipe.mctPowder * 8); // MCT has ~8 cal/g
+            // Calculate approximate totals
+            const totalScoops = Object.values(recipe).reduce((sum, count) => sum + count, 0);
+            const estimatedCalories = Math.round((recipe.yellow * 60) + (recipe.blue * 48) + (recipe.purple * 35));
             
-            displayRecipe(recipe, notes, totalCarbs, totalCalories);
+            displayRecipe(recipe, notes, totalScoops, estimatedCalories);
             
             // Show results
             document.getElementById('question-3').classList.remove('active');
@@ -496,42 +557,56 @@
             document.getElementById('progress-fill').style.width = '100%';
         }
         
-        function displayRecipe(recipe, notes, totalCarbs, totalCalories) {
+        function displayRecipe(recipe, notes, totalScoops, estimatedCalories) {
+            const scoopLabels = {
+                yellow: 'Maltodextrin',
+                blue: 'Sugar', 
+                green: 'Sodium Citrate',
+                purple: 'MCT Powder',
+                orange: 'Flavoring'
+            };
+            
+            const scoopEmojis = {
+                yellow: 'Y',
+                blue: 'B',
+                green: 'G', 
+                purple: 'P',
+                orange: 'O'
+            };
+            
             const recipeHtml = `
                 <div class="recipe-result">
                     <div class="recipe-title">Your Custom Recipe (500ml bottle)</div>
                     
-                    <div class="ingredient-list">
-                        <div class="ingredient">
-                            <span class="ingredient-name">🟡 Maltodextrin</span>
-                            <span class="ingredient-amount">${recipe.maltodextrin}g</span>
-                        </div>
-                        <div class="ingredient">
-                            <span class="ingredient-name">🔵 Sugar</span>
-                            <span class="ingredient-amount">${recipe.sugar}g</span>
-                        </div>
-                        <div class="ingredient">
-                            <span class="ingredient-name">🟢 Sodium Citrate</span>
-                            <span class="ingredient-amount">${recipe.sodiumCitrate}g</span>
-                        </div>
-                        <div class="ingredient">
-                            <span class="ingredient-name">⚪ MCT Powder</span>
-                            <span class="ingredient-amount">${recipe.mctPowder}g</span>
-                        </div>
-                        <div class="ingredient">
-                            <span class="ingredient-name">🟠 Flavoring</span>
-                            <span class="ingredient-amount">${recipe.flavoring}g</span>
-                        </div>
+                    <div class="scoop-combo-large">
+                        ${Object.entries(recipe).map(([color, count]) => `
+                            <div class="scoop-group-large">
+                                <div class="scoop-count-large">${count}</div>
+                                <div class="scoop-icon-large ${color}">${scoopEmojis[color]}</div>
+                                <div class="scoop-label">${scoopLabels[color]}</div>
+                            </div>
+                        `).join('')}
                     </div>
                     
-                    <div style="background: white; padding: 15px; border-radius: 8px; text-align: center; margin: 15px 0;">
-                        <strong>${totalCalories} calories • ${Math.round(totalCarbs)}g carbs • ${Math.round(recipe.sodiumCitrate * 300)}mg sodium</strong>
+                    <div class="recipe-stats">
+                        <strong>~${estimatedCalories} calories • ${totalScoops} total scoops</strong>
+                    </div>
+                    
+                    <div class="recipe-instructions">
+                        <h4>How to mix:</h4>
+                        <ol>
+                            <li>Add 500ml (16oz) water to your bottle</li>
+                            <li>Add the scoops shown above in any order</li>
+                            <li>Shake vigorously for 30 seconds</li>
+                            <li>Taste and adjust future mixes as needed</li>
+                        </ol>
                     </div>
                     
                     <div class="recipe-notes">
-                        <h4>📝 Why this recipe:</h4>
+                        <h4>📝 Why this combination:</h4>
                         ${notes.map(note => `<p>• ${note}</p>`).join('')}
                         <p>• Test this recipe during training before using in an event</p>
+                        <p>• Adjust one scoop at a time based on your experience</p>
                     </div>
                 </div>
             `;
