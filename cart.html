@@ -411,21 +411,46 @@
         }
 
         // Create HTML for individual cart item
+        // Replace the createCartItemHTML function with this debug version:
+
         function createCartItemHTML(item) {
+            console.log('Creating cart item for:', item); // DEBUG
+            
             const totalPrice = item.price * item.quantity;
-            const variants = item.variants ? 
-                Object.values(item.variants).map(v => v.name).join(', ') : '';
+            
+            // Format flavor selections for display
+            let flavorDisplay = '';
+            
+            console.log('Checking selectedFlavors:', item.selectedFlavors); // DEBUG
+            console.log('Checking variants:', item.variants); // DEBUG
+            
+            if (item.selectedFlavors && item.selectedFlavors.length > 0) {
+                console.log('Found selectedFlavors!'); // DEBUG
+                const flavorNames = item.selectedFlavors.map(f => f.name).join(', ');
+                flavorDisplay = `<div class="item-variants">Flavors: ${flavorNames}</div>`;
+            } else if (item.variants) {
+                console.log('Found variants!'); // DEBUG
+                // Handle old variant format for backward compatibility
+                const variants = Object.values(item.variants).map(v => v.name).join(', ');
+                if (variants) {
+                    flavorDisplay = `<div class="item-variants">${variants}</div>`;
+                }
+            } else {
+                console.log('No flavors found!'); // DEBUG
+            }
+            
+            console.log('Final flavorDisplay:', flavorDisplay); // DEBUG
             
             // Create unique identifier for this cart item
-            const itemKey = createItemKey(item.id, item.variants);
+            const itemKey = createItemKey(item.id, item.variants || item.selectedFlavors);
 
             return `
                 <div class="cart-item" data-item-key="${itemKey}">
                     <div class="item-image">${getItemEmoji(item)}</div>
                     <div class="item-details">
                         <div class="item-name">${item.name}</div>
-                        ${variants ? `<div class="item-variants">${variants}</div>` : ''}
-                        <div class="item-price">${item.price.toFixed(2)} each</div>
+                        ${flavorDisplay}
+                        <div class="item-price">$${item.price.toFixed(2)} each</div>
                     </div>
                     <div class="item-controls">
                         <div class="quantity-controls">
@@ -437,6 +462,22 @@
                     </div>
                 </div>
             `;
+        }
+
+        // ALSO update the createItemKey function to handle selectedFlavors:
+        function createItemKey(itemId, variants) {
+            // Handle both old variants format and new selectedFlavors format
+            let keyData = itemId;
+            if (variants) {
+                if (Array.isArray(variants)) {
+                    // selectedFlavors format
+                    keyData += variants.map(f => f.id || f.name).sort().join('-');
+                } else {
+                    // old variants format
+                    keyData += JSON.stringify(variants);
+                }
+            }
+            return btoa(keyData).replace(/[^a-zA-Z0-9]/g, '');
         }
 
         // Create cart summary HTML
@@ -501,6 +542,8 @@
             }
         }
 
+
+
         // Remove item completely
         function removeItem(itemKey) {
             const itemIndex = findCartItemIndexByKey(itemKey);
@@ -512,16 +555,13 @@
             }
         }
 
-        // Create unique key for cart item
-        function createItemKey(itemId, variants) {
-            return btoa(itemId + JSON.stringify(variants || {})).replace(/[^a-zA-Z0-9]/g, '');
-        }
-
         // Find cart item index by unique key
         function findCartItemIndexByKey(itemKey) {
-            return cart.findIndex(item => 
-                createItemKey(item.id, item.variants) === itemKey
-            );
+            return cart.findIndex(item => {
+                // Use the same logic as createItemKey to match items
+                const itemVariants = item.variants || item.selectedFlavors;
+                return createItemKey(item.id, itemVariants) === itemKey;
+            });
         }
 
         // Calculate subtotal

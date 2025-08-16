@@ -368,6 +368,111 @@
             text-align: center;
         }
 
+        .flavor-selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .flavor-checkbox-option {
+            position: relative;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 16px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .flavor-checkbox-option input[type="checkbox"] {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            transform: scale(1.2);
+            margin: 0;
+        }
+
+        .flavor-checkbox-option:hover {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+        }
+
+        .flavor-checkbox-option:has(input:checked) {
+            background: #e8f5e8;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 1px #4CAF50;
+        }
+
+        .flavor-checkbox-option input[type="checkbox"]:checked + .flavor-name {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .flavor-name {
+            font-weight: 600;
+            font-size: 0.95em;
+            margin: 8px 0 4px 0;
+            color: #2c3e50;
+        }
+
+        .flavor-desc {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            line-height: 1.3;
+        }
+
+        .flavor-counter {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 15px;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .flavor-counter.complete {
+            color: #4CAF50;
+            background: #e8f5e8;
+            border: 1px solid #4CAF50;
+        }
+
+        .flavor-counter.error {
+            color: #dc3545;
+            background: #f8d7da;
+            border: 1px solid #dc3545;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .flavor-selection-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .flavor-checkbox-option {
+                padding: 12px 8px;
+                min-height: 70px;
+            }
+            
+            .flavor-name {
+                font-size: 0.85em;
+            }
+            
+            .flavor-desc {
+                font-size: 0.75em;
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -527,28 +632,92 @@
             
             let variantsHtml = '<div class="variants">';
             
-            Object.entries(product.variants).forEach(([variantType, options]) => {
-                variantsHtml += `
-                    <div class="variant-group">
-                        <div class="variant-label">${capitalizeFirst(variantType)}:</div>
-                        <div class="variant-options">
-                            ${options.map(option => `
-                                <div class="variant-option ${option.price_modifier === 0 ? 'selected' : ''}" 
-                                     data-product="${product.id}" 
-                                     data-variant="${variantType}" 
-                                     data-option="${option.id}"
-                                     data-price="${option.price_modifier}">
-                                    ${option.name}
-                                    ${option.price_modifier > 0 ? ` (+$${option.price_modifier})` : ''}
-                                </div>
-                            `).join('')}
+            Object.entries(product.variants).forEach(([variantType, variantConfig]) => {
+                if (variantConfig.type === 'multiple') {
+                    // Handle multiple selection variants (like flavors)
+                    variantsHtml += `
+                        <div class="variant-group">
+                            <div class="variant-label">${variantConfig.label || capitalizeFirst(variantType)}:</div>
+                            <div class="flavor-selection-grid" data-product="${product.id}" data-variant="${variantType}">
+                                ${variantConfig.options.map(option => `
+                                    <label class="flavor-checkbox-option">
+                                        <input type="checkbox" 
+                                            data-product="${product.id}" 
+                                            data-variant="${variantType}" 
+                                            data-option="${option.id}">
+                                        <span class="flavor-name">${option.name}</span>
+                                        <span class="flavor-desc">${option.description || ''}</span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                            <div class="flavor-counter" id="flavor-counter-${product.id}-${variantType}">
+                                0 of ${variantConfig.required} required flavors selected
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                } else {
+                    // Handle original single-selection variants (if any exist)
+                    variantsHtml += `
+                        <div class="variant-group">
+                            <div class="variant-label">${capitalizeFirst(variantType)}:</div>
+                            <div class="variant-options">
+                                ${variantConfig.map(option => `
+                                    <div class="variant-option ${option.price_modifier === 0 ? 'selected' : ''}" 
+                                        data-product="${product.id}" 
+                                        data-variant="${variantType}" 
+                                        data-option="${option.id}"
+                                        data-price="${option.price_modifier}">
+                                        ${option.name}
+                                        ${option.price_modifier > 0 ? ` (+$${option.price_modifier})` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
             });
             
             variantsHtml += '</div>';
             return variantsHtml;
+        }
+
+        function updateFlavorSelection(productId, variantType) {
+            const product = products.find(p => p.id === productId);
+            if (!product || !product.variants || !product.variants[variantType]) return;
+            
+            const variantConfig = product.variants[variantType];
+            const checkboxes = document.querySelectorAll(`[data-product="${productId}"][data-variant="${variantType}"]:checked`);
+            const counter = document.getElementById(`flavor-counter-${productId}-${variantType}`);
+            
+            if (!counter) return;
+            
+            const selectedCount = checkboxes.length;
+            const required = variantConfig.required;
+            const max = variantConfig.max;
+            
+            // Update counter display
+            counter.textContent = `${selectedCount} of ${required} required flavors selected`;
+            
+            // Update counter styling
+            counter.classList.remove('complete', 'error');
+            if (selectedCount === required) {
+                counter.classList.add('complete');
+            } else if (selectedCount > max) {
+                counter.classList.add('error');
+                counter.textContent = `Too many selected! Choose ${max} maximum.`;
+            }
+            
+            // Disable other checkboxes if max reached
+            const allCheckboxes = document.querySelectorAll(`[data-product="${productId}"][data-variant="${variantType}"]`);
+            allCheckboxes.forEach(checkbox => {
+                if (!checkbox.checked && selectedCount >= max) {
+                    checkbox.disabled = true;
+                    checkbox.parentElement.style.opacity = '0.5';
+                } else {
+                    checkbox.disabled = false;
+                    checkbox.parentElement.style.opacity = '1';
+                }
+            });
         }
 
         // Render add-ons section
@@ -573,11 +742,16 @@
 
         // Add item to cart
         function addToCart(productId, isAddOn = false) {
+            console.log('Adding to cart:', productId, 'isAddOn:', isAddOn); // DEBUG
+            
             const item = isAddOn 
                 ? addOns.find(a => a.id === productId)
                 : products.find(p => p.id === productId);
             
-            if (!item) return;
+            if (!item) {
+                console.error('Item not found:', productId);
+                return;
+            }
 
             let cartItem = {
                 id: productId,
@@ -587,38 +761,82 @@
                 isAddOn: isAddOn
             };
 
-            // Get selected variants for products
+            // Handle multiple flavor selections for products
             if (!isAddOn && item.variants) {
-                cartItem.variants = {};
+                console.log('Processing variants for:', productId);
+                cartItem.selectedFlavors = [];
+                
                 Object.keys(item.variants).forEach(variantType => {
-                    const selected = document.querySelector(
-                        `[data-product="${productId}"][data-variant="${variantType}"].selected`
-                    );
-                    if (selected) {
-                        cartItem.variants[variantType] = {
-                            id: selected.dataset.option,
-                            name: selected.textContent.trim(),
-                            price_modifier: parseFloat(selected.dataset.price) || 0
-                        };
-                        cartItem.price += cartItem.variants[variantType].price_modifier;
+                    const variantConfig = item.variants[variantType];
+                    
+                    if (variantConfig.type === 'multiple') {
+                        console.log('Processing multiple variant:', variantType);
+                        // Handle multiple selection variants (flavors)
+                        const selected = document.querySelectorAll(
+                            `[data-product="${productId}"][data-variant="${variantType}"]:checked`
+                        );
+                        
+                        console.log('Selected checkboxes:', selected.length, 'Required:', variantConfig.required);
+                        
+                        if (selected.length !== variantConfig.required) {
+                            alert(`Please select exactly ${variantConfig.required} ${variantType.replace('_', ' ')}`);
+                            return;
+                        }
+                        
+                        cartItem.selectedFlavors = Array.from(selected).map(checkbox => {
+                            const option = variantConfig.options.find(opt => opt.id === checkbox.dataset.option);
+                            console.log('Adding flavor:', option);
+                            return {
+                                type: variantType,
+                                id: option.id,
+                                name: option.name
+                            };
+                        });
+                    } else {
+                        // Handle original single-selection variants
+                        const selected = document.querySelector(
+                            `[data-product="${productId}"][data-variant="${variantType}"].selected`
+                        );
+                        if (selected) {
+                            cartItem.variants = cartItem.variants || {};
+                            cartItem.variants[variantType] = {
+                                id: selected.dataset.option,
+                                name: selected.textContent.trim(),
+                                price_modifier: parseFloat(selected.dataset.price) || 0
+                            };
+                            cartItem.price += cartItem.variants[variantType].price_modifier;
+                        }
                     }
                 });
+                
+                // If we have selectedFlavors but it's empty, something went wrong
+                if (cartItem.selectedFlavors && cartItem.selectedFlavors.length === 0) {
+                    console.error('No flavors selected, aborting add to cart');
+                    return;
+                }
             }
 
-            // Check if item already exists in cart
+            console.log('Final cart item:', cartItem); // DEBUG
+
+            // Check if item already exists in cart (including flavor combinations)
             const existingIndex = cart.findIndex(c => 
                 c.id === cartItem.id && 
+                JSON.stringify(c.selectedFlavors || []) === JSON.stringify(cartItem.selectedFlavors || []) &&
                 JSON.stringify(c.variants || {}) === JSON.stringify(cartItem.variants || {})
             );
 
             if (existingIndex >= 0) {
                 cart[existingIndex].quantity++;
+                console.log('Updated existing item quantity');
             } else {
                 cart.push(cartItem);
+                console.log('Added new item to cart');
             }
 
             saveCart();
             updateCartIndicator();
+            
+            console.log('Cart after adding:', cart); // DEBUG
             
             // Visual feedback
             const button = event.target;
@@ -627,6 +845,7 @@
             button.style.background = '#4CAF50';
             setTimeout(() => {
                 button.textContent = originalText;
+                button.style.background = '';
             }, 1000);
         }
 
@@ -639,6 +858,15 @@
                     updateFilterButtons();
                     renderProducts();
                 });
+            });
+            
+            // Checkboxes
+            document.addEventListener('change', (e) => {
+                if (e.target.type === 'checkbox' && e.target.dataset.product && e.target.dataset.variant) {
+                    const productId = e.target.dataset.product;
+                    const variantType = e.target.dataset.variant;
+                    updateFlavorSelection(productId, variantType);
+                }
             });
 
             // Variant selection

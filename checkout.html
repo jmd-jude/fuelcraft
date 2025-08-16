@@ -429,17 +429,24 @@
 
             for (let i = 0; i < cart.length; i++) {
                 const item = cart[i];
-                const variants = item.variants ? 
-                    Object.values(item.variants).map(function(v) { return v.name; }).join(', ') : '';
+                
+                // Handle new selectedFlavors format
+                let flavorDisplay = '';
+                if (item.selectedFlavors && item.selectedFlavors.length > 0) {
+                    const flavorNames = item.selectedFlavors.map(f => f.name).join(', ');
+                    flavorDisplay = `<div class="item-variants">Flavors: ${flavorNames}</div>`;
+                } else if (item.variants) {
+                    // Handle old variants format for backward compatibility
+                    const variants = Object.values(item.variants).map(function(v) { return v.name; }).join(', ');
+                    if (variants) {
+                        flavorDisplay = `<div class="item-variants">${variants}</div>`;
+                    }
+                }
                 
                 html += '<div class="order-item">';
                 html += '<div class="item-details">';
                 html += '<div class="item-name">' + item.name + '</div>';
-                
-                if (variants) {
-                    html += '<div class="item-variants">' + variants + '</div>';
-                }
-                
+                html += flavorDisplay;
                 html += '<div class="item-quantity">Quantity: ' + item.quantity + '</div>';
                 html += '</div>';
                 html += '<div class="item-price">$' + (item.price * item.quantity).toFixed(2) + '</div>';
@@ -799,6 +806,7 @@
                    customer.city + ', ' + customer.state + ' ' + customer.zipCode;
         }
 
+        // FormatItemsInfo function for Airtable:
         function formatItemsInfo(items) {
             let itemsText = '';
             
@@ -806,7 +814,12 @@
                 const item = items[i];
                 itemsText += item.name;
                 
-                if (item.variants) {
+                // Handle new selectedFlavors format
+                if (item.selectedFlavors && item.selectedFlavors.length > 0) {
+                    const flavorNames = item.selectedFlavors.map(f => f.name).join(', ');
+                    itemsText += ' (Flavors: ' + flavorNames + ')';
+                } else if (item.variants) {
+                    // Handle old variants format
                     const variantNames = Object.values(item.variants).map(function(v) { return v.name; });
                     if (variantNames.length > 0) {
                         itemsText += ' (' + variantNames.join(', ') + ')';

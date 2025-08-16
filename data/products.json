@@ -34,50 +34,44 @@
         "* You supply sugar from the pantry"
       ],
       "variants": {
-        "flavoring": [
-          {
-            "id": "lime",
-            "name": "Lime",
-            "price_modifier": 0,
-            "sku_suffix": "-LI",
-            "description": "Cooling Lime"
-          },
-          {
-            "id": "cucumber",
-            "name": "Cucumber", 
-            "price_modifier": 0,
-            "sku_suffix": "-CU",
-            "description": "Refreshing Cucumber"
-          },
-          {
-            "id": "raspberry",
-            "name": "Raspberry",
-            "price_modifier": 0,
-            "sku_suffix": "-RA",
-            "description": "Energizing Raspberry"
-          },
-          {
-            "id": "watermelon",
-            "name": "Watermelon",
-            "price_modifier": 0,
-            "sku_suffix": "-WA",
-            "description": "Natural Watermelon"
-          },
-          {
-            "id": "orange",
-            "name": "Orange",
-            "price_modifier": 0,
-            "sku_suffix": "-OR",
-            "description": "Fresh Orange"
-          },
-          {
-            "id": "pineapple",
-            "name": "Pineapple",
-            "price_modifier": 0,
-            "sku_suffix": "-PI",
-            "description": "Pineapple"
-          }
-        ]
+        "base_flavors": {
+          "type": "multiple",
+          "required": 2,
+          "max": 2,
+          "label": "Choose 2 Included Flavors",
+          "options": [
+            {
+              "id": "lime",
+              "name": "Lime",
+              "description": "Cooling Lime"
+            },
+            {
+              "id": "cucumber", 
+              "name": "Cucumber",
+              "description": "Refreshing Cucumber"
+            },
+            {
+              "id": "raspberry",
+              "name": "Raspberry", 
+              "description": "Energizing Raspberry"
+            },
+            {
+              "id": "watermelon",
+              "name": "Watermelon",
+              "description": "Natural Watermelon"
+            },
+            {
+              "id": "orange",
+              "name": "Orange",
+              "description": "Fresh Orange"
+            },
+            {
+              "id": "pineapple",
+              "name": "Pineapple",
+              "description": "Tropical Pineapple"
+            }
+          ]
+        }
       },
       "constraints": {
         "max_quantity": 3,
@@ -98,7 +92,7 @@
       "formula_version": "1.0",
       "launch_date": "2025-08-15",
       "description": "Our most popular kit - perfect for 2-3 weeks of training with advanced MCT fuel technology",
-      "meta_description": "FuelCraft's bestselling 10-serving kit with MCT powder. Everything you need for custom sports nutrition at 60%+ savings.",
+      "meta_description": "FuelCraft's bestselling 10-serving kit with MCT powder. Everything you need for custom sports nutrition at a fraction of the cost.",
       "image": "/images/products/10-kit.jpg",
       "ingredients": {
         "maltodextrin": "300g total (30g per serving)",
@@ -122,50 +116,44 @@
         "* You supply sugar from the pantry"
       ],
       "variants": {
-        "flavoring": [
-          {
-            "id": "lime",
-            "name": "Lime",
-            "price_modifier": 0,
-            "sku_suffix": "-LI",
-            "description": "Cooling Lime"
-          },
-          {
-            "id": "cucumber",
-            "name": "Cucumber", 
-            "price_modifier": 0,
-            "sku_suffix": "-CU",
-            "description": "Refreshing Cucumber"
-          },
-          {
-            "id": "raspberry",
-            "name": "Raspberry",
-            "price_modifier": 0,
-            "sku_suffix": "-RA",
-            "description": "Energizing Raspberry"
-          },
-          {
-            "id": "watermelon",
-            "name": "Watermelon",
-            "price_modifier": 0,
-            "sku_suffix": "-WA",
-            "description": "Natural Watermelon"
-          },
-          {
-            "id": "orange",
-            "name": "Orange",
-            "price_modifier": 0,
-            "sku_suffix": "-OR",
-            "description": "Fresh Orange"
-          },
-          {
-            "id": "pineapple",
-            "name": "Pineapple",
-            "price_modifier": 0,
-            "sku_suffix": "-PI",
-            "description": "Pineapple"
-          }
-        ]
+        "base_flavors": {
+          "type": "multiple",
+          "required": 2,
+          "max": 2,
+          "label": "Choose 2 Included Flavors",
+          "options": [
+            {
+              "id": "lime",
+              "name": "Lime",
+              "description": "Cooling Lime"
+            },
+            {
+              "id": "cucumber",
+              "name": "Cucumber", 
+              "description": "Refreshing Cucumber"
+            },
+            {
+              "id": "raspberry",
+              "name": "Raspberry",
+              "description": "Energizing Raspberry"
+            },
+            {
+              "id": "watermelon",
+              "name": "Watermelon",
+              "description": "Natural Watermelon"
+            },
+            {
+              "id": "orange",
+              "name": "Orange",
+              "description": "Fresh Orange"
+            },
+            {
+              "id": "pineapple",
+              "name": "Pineapple",
+              "description": "Pineapple"
+            }
+          ]
+        }
       },
       "constraints": {
         "max_quantity": 5,

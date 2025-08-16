@@ -1,3 +1,46 @@
 {
-  "add_ons": []
+  "add_ons": [
+    {
+      "id": "extra-lime-pack",
+      "name": "Extra Lime Flavor Pack",
+      "description": "Additional lime flavoring (~10 servings worth)",
+      "price": 3.00,
+      "isAddOn": true
+    },
+    {
+      "id": "extra-cucumber-pack", 
+      "name": "Extra Cucumber Flavor Pack",
+      "description": "Additional cucumber flavoring (~10 servings worth)",
+      "price": 3.00,
+      "isAddOn": true
+    },
+    {
+      "id": "extra-raspberry-pack",
+      "name": "Extra Raspberry Flavor Pack", 
+      "description": "Additional raspberry flavoring (~10 servings worth)",
+      "price": 3.00,
+      "isAddOn": true
+    },
+    {
+      "id": "extra-watermelon-pack",
+      "name": "Extra Watermelon Flavor Pack",
+      "description": "Additional watermelon flavoring (~10 servings worth)", 
+      "price": 3.00,
+      "isAddOn": true
+    },
+    {
+      "id": "extra-orange-pack",
+      "name": "Extra Orange Flavor Pack",
+      "description": "Additional orange flavoring (~10 servings worth)",
+      "price": 3.00,
+      "isAddOn": true
+    },
+    {
+      "id": "extra-pineapple-pack",
+      "name": "Extra Pineapple Flavor Pack",
+      "description": "Additional pineapple flavoring (~10 servings worth)",
+      "price": 3.00,
+      "isAddOn": true
+    }
+  ]
 }
