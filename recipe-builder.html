@@ -30,14 +30,29 @@
             text-align: center;
         }
         
-        .header h1 {
-            margin: 0;
-            font-size: 2em;
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
         }
-        
-        .header p {
-            margin: 10px 0 0 0;
-            opacity: 0.9;
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .nav-link:hover {
+            background: white;
+            color: #4CAF50;
+            transform: translateY(-2px);
         }
         
         .content {
@@ -256,23 +271,58 @@
             font-size: 0.9em;
         }
         
-        .start-over {
-            text-align: center;
-            margin-top: 25px;
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
         }
         
-        .btn-start-over {
-            background: #2196F3;
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #4CAF50;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-decoration: none;
             font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
         }
-        
-        .btn-start-over:hover {
-            background: #1976D2;
+
+        .btn-primary:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #4CAF50;
+            border: 2px solid #4CAF50;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #4CAF50;
+            color: white;
+            transform: translateY(-2px);
         }
         
         .progress-bar {
@@ -349,11 +399,6 @@
             margin-bottom: 5px;
         }
         
-        .tool-desc {
-            font-size: 0.85em;
-            color: #7f8c8d;
-        }
-        
         @media (max-width: 768px) {
             .scoop-combo-large {
                 grid-template-columns: 1fr;
@@ -363,6 +408,36 @@
             .tool-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        .start-over {
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .btn-start-over {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-start-over:hover {
+            background: #1976D2;
         }
     </style>
 </head>
@@ -371,6 +446,11 @@
         <div class="header">
             <h1>🥤 Scoop Recipe Builder</h1>
             <p>Answer 3 questions to get your perfect scoop combination</p>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">← Back to Home</a>
+                <a href="shop.html" class="nav-link">Shop Kits</a>
+                <a href="cards.html" class="nav-link">View Instructions</a>
+            </div>
         </div>
         
         <div class="content">
@@ -459,6 +539,15 @@
             <div class="question-section" id="results">
                 <div id="recipe-output">
                     <!-- Recipe will be generated here -->
+        .tool-desc {
+            font-size: 0.85em;
+            color: #7f8c8d;
+        }
+        
+                    <div class="action-buttons">
+                        <a href="shop.html" class="btn-primary">Get Your Kit Now</a>
+                        <a href="cards.html" class="btn-secondary">View Full Instructions</a>
+                    </div>
                 </div>
                 <div class="start-over">
                     <button class="btn-start-over" onclick="startOver()">🔄 Try Different Conditions</button>
