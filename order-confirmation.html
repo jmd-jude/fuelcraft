@@ -519,6 +519,9 @@
         // Update order status in Airtable
         async function updateOrderStatus(recordId, status) {
             try {
+                // Format date for Airtable (YYYY-MM-DD format)
+                const paymentDate = new Date().toISOString().split('T')[0];
+                
                 const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableId}/${recordId}`, {
                     method: 'PATCH',
                     headers: {
@@ -528,7 +531,7 @@
                     body: JSON.stringify({
                         fields: {
                             'Status': status,
-                            'Payment Date': new Date().toISOString()
+                            'Payment Date': paymentDate  // Now sends YYYY-MM-DD format
                         }
                     })
                 });

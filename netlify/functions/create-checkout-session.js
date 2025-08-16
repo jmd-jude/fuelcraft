@@ -110,16 +110,6 @@ exports.handler = async (event, context) => {
         const { items, customer, totals } = orderData;
 
         console.log('Processing order for:', customer.email);
-        console.log('Items:', JSON.stringify(items, null, 2));
-        console.log('DEBUG: Processing items for Stripe:');
-            items.forEach((item, index) => {
-                console.log(`Item ${index}:`, JSON.stringify(item, null, 2));
-                if (item.selectedFlavors) {
-                    console.log(`  Flavors found:`, item.selectedFlavors.map(f => f.name));
-                } else {
-                    console.log(`  No selectedFlavors found for item ${index}`);
-                }
-            });
 
         // Generate order ID
         const orderID = generateOrderID();
@@ -182,8 +172,6 @@ exports.handler = async (event, context) => {
                 quantity: 1,
             });
         }
-
-        console.log('Creating Stripe session with line items:', JSON.stringify(lineItems, null, 2));
 
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({

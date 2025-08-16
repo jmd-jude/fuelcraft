@@ -411,35 +411,22 @@
         }
 
         // Create HTML for individual cart item
-        // Replace the createCartItemHTML function with this debug version:
-
         function createCartItemHTML(item) {
-            console.log('Creating cart item for:', item); // DEBUG
-            
             const totalPrice = item.price * item.quantity;
             
             // Format flavor selections for display
             let flavorDisplay = '';
             
-            console.log('Checking selectedFlavors:', item.selectedFlavors); // DEBUG
-            console.log('Checking variants:', item.variants); // DEBUG
-            
             if (item.selectedFlavors && item.selectedFlavors.length > 0) {
-                console.log('Found selectedFlavors!'); // DEBUG
                 const flavorNames = item.selectedFlavors.map(f => f.name).join(', ');
                 flavorDisplay = `<div class="item-variants">Flavors: ${flavorNames}</div>`;
             } else if (item.variants) {
-                console.log('Found variants!'); // DEBUG
                 // Handle old variant format for backward compatibility
                 const variants = Object.values(item.variants).map(v => v.name).join(', ');
                 if (variants) {
                     flavorDisplay = `<div class="item-variants">${variants}</div>`;
                 }
-            } else {
-                console.log('No flavors found!'); // DEBUG
             }
-            
-            console.log('Final flavorDisplay:', flavorDisplay); // DEBUG
             
             // Create unique identifier for this cart item
             const itemKey = createItemKey(item.id, item.variants || item.selectedFlavors);
