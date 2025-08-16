@@ -1,4 +1,3 @@
-//recipe-builder.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -162,11 +161,21 @@
         }
         
         .scoop-combo-large {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
             margin: 30px 0;
-            flex-wrap: wrap;
+        }
+        
+        .scoop-section {
+            text-align: center;
+        }
+        
+        .scoop-section-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
         }
         
         .scoop-group-large {
@@ -174,22 +183,23 @@
             flex-direction: column;
             align-items: center;
             gap: 8px;
+            margin-bottom: 15px;
         }
         
         .scoop-count-large {
-            font-size: 3em;
+            font-size: 2.5em;
             font-weight: bold;
             color: #2c3e50;
         }
         
         .scoop-icon-large {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
             color: white;
             margin-bottom: 5px;
@@ -199,13 +209,11 @@
             font-size: 0.9em;
             color: #666;
             text-align: center;
+            font-weight: 600;
         }
         
-        .yellow { background: #FFA726; }
-        .blue { background: #42A5F5; }
-        .green { background: #66BB6A; }
-        .purple { background: #AB47BC; }
-        .orange { background: #FF7043; }
+        .green-scoop { background: #4CAF50; }
+        .purple-scoop { background: #AB47BC; }
         
         .recipe-instructions {
             background: white;
@@ -291,6 +299,70 @@
         .recipe-stats strong {
             color: #2c3e50;
             font-size: 1.1em;
+        }
+        
+        .tool-explanation {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .tool-explanation h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .tool-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .tool-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 10px;
+        }
+        
+        .tool-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .tool-desc {
+            font-size: 0.85em;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 768px) {
+            .scoop-combo-large {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -399,68 +471,64 @@
         let currentQuestion = 1;
         let answers = {};
         
-        // Base recipe in scoops
+        // Base recipe with simplified scoop system - targeting ~350 calories
         const baseRecipe = {
-            yellow: 2,    // Maltodextrin
-            blue: 4,      // Sugar
-            green: 1,     // Sodium Citrate
-            purple: 1,    // MCT Powder
-            orange: 1     // Flavoring
+            maltodextrin: 2,      // Green scoops (tablespoon) - ~20g
+            sugar: 3,             // Green scoops (tablespoon) - ~36g  
+            mct: 1,               // Green scoops (tablespoon) - ~12g
+            sodium_citrate: 1     // Purple scoops (1/2 teaspoon) - ~3g
         };
         
-        // Recipe adjustments based on answers (now in scoop modifications)
+        // Recipe adjustments based on answers
         const adjustments = {
             // Weather adjustments
             hot: { 
-                yellow: -1, 
-                blue: -1, 
-                green: +1, 
-                purple: 0,
-                orange: 0,
+                maltodextrin: -0.5, 
+                sugar: -0.5, 
+                mct: 0,
+                sodium_citrate: +1,
                 note: "Less sweetness, extra electrolytes for hot weather"
             },
             moderate: { 
-                yellow: 0, 
-                blue: 0, 
-                green: 0, 
-                purple: 0,
-                orange: 0,
+                maltodextrin: 0, 
+                sugar: 0, 
+                mct: 0,
+                sodium_citrate: 0,
                 note: "Perfect base recipe for moderate conditions"
             },
             cool: { 
-                yellow: +1, 
-                blue: +1, 
-                green: 0, 
-                purple: 0,
-                orange: 0,
+                maltodextrin: +0.5, 
+                sugar: +0.5, 
+                mct: 0,
+                sodium_citrate: 0,
                 note: "Higher energy - your gut can handle more in cool weather"
             },
             
             // Duration/Intensity adjustments
             'easy-short': { 
-                modifier: { yellow: -1, blue: -1, green: 0, purple: 0, orange: 0 },
+                modifier: { maltodextrin: -0.5, sugar: -0.5, mct: 0, sodium_citrate: 0 },
                 note: "Light fuel for easy efforts"
             },
             'long-hard': { 
-                modifier: { yellow: +1, blue: +1, green: 0, purple: +1, orange: 0 },
+                modifier: { maltodextrin: +0.5, sugar: +0.5, mct: +0.5, sodium_citrate: 0 },
                 note: "Maximum fuel for sustained performance"
             },
             'golf': { 
-                modifier: { yellow: 0, blue: -1, green: 0, purple: +2, orange: 0 },
+                modifier: { maltodextrin: 0, sugar: -0.5, mct: +1, sodium_citrate: 0 },
                 note: "Extra MCT for sustained mental energy, less sugar to avoid crashes"
             },
             'early-morning': { 
-                modifier: { yellow: -1, blue: -1, green: 0, purple: 0, orange: 0 },
+                modifier: { maltodextrin: -0.5, sugar: -0.5, mct: 0, sodium_citrate: 0 },
                 note: "Gentle start for empty stomach"
             },
             
             // Gut sensitivity adjustments  
             'very-sensitive': { 
-                modifier: { yellow: -1, blue: -1, green: 0, purple: -1, orange: 0 },
+                modifier: { maltodextrin: -0.5, sugar: -0.5, mct: -0.5, sodium_citrate: 0 },
                 note: "Reduced concentration for sensitive stomachs"
             },
             'sensitive': { 
-                modifier: { yellow: 0, blue: -1, green: 0, purple: 0, orange: 0 },
+                modifier: { maltodextrin: 0, sugar: -0.5, mct: 0, sodium_citrate: 0 },
                 note: "Slightly reduced sweetness for better tolerance"
             }
         };
@@ -513,9 +581,9 @@
             
             // Apply weather adjustments
             const weatherAdj = adjustments[weather];
-            Object.keys(recipe).forEach(scoop => {
-                if (weatherAdj[scoop] !== undefined) {
-                    recipe[scoop] += weatherAdj[scoop];
+            Object.keys(recipe).forEach(ingredient => {
+                if (weatherAdj[ingredient] !== undefined) {
+                    recipe[ingredient] += weatherAdj[ingredient];
                 }
             });
             notes.push(weatherAdj.note);
@@ -523,9 +591,9 @@
             // Apply intensity adjustments
             if (adjustments[intensity] && adjustments[intensity].modifier) {
                 const intensityAdj = adjustments[intensity].modifier;
-                Object.keys(recipe).forEach(scoop => {
-                    if (intensityAdj[scoop] !== undefined) {
-                        recipe[scoop] += intensityAdj[scoop];
+                Object.keys(recipe).forEach(ingredient => {
+                    if (intensityAdj[ingredient] !== undefined) {
+                        recipe[ingredient] += intensityAdj[ingredient];
                     }
                 });
                 notes.push(adjustments[intensity].note);
@@ -534,24 +602,23 @@
             // Apply gut sensitivity adjustments
             if (adjustments[gut] && adjustments[gut].modifier) {
                 const gutAdj = adjustments[gut].modifier;
-                Object.keys(recipe).forEach(scoop => {
-                    if (gutAdj[scoop] !== undefined) {
-                        recipe[scoop] += gutAdj[scoop];
+                Object.keys(recipe).forEach(ingredient => {
+                    if (gutAdj[ingredient] !== undefined) {
+                        recipe[ingredient] += gutAdj[ingredient];
                     }
                 });
                 notes.push(adjustments[gut].note);
             }
             
             // Ensure minimum values (can't have negative scoops)
-            Object.keys(recipe).forEach(scoop => {
-                recipe[scoop] = Math.max(0, recipe[scoop]);
+            Object.keys(recipe).forEach(ingredient => {
+                recipe[ingredient] = Math.max(0, recipe[ingredient]);
             });
             
-            // Calculate approximate totals
-            const totalScoops = Object.values(recipe).reduce((sum, count) => sum + count, 0);
-            const estimatedCalories = Math.round((recipe.yellow * 60) + (recipe.blue * 48) + (recipe.purple * 35));
+            // Calculate approximate totals - updated for stronger base recipe
+            const estimatedCalories = Math.round((recipe.maltodextrin * 40) + (recipe.sugar * 48) + (recipe.mct * 45));
             
-            displayRecipe(recipe, notes, totalScoops, estimatedCalories);
+            displayRecipe(recipe, notes, estimatedCalories);
             
             // Show results
             document.getElementById('question-3').classList.remove('active');
@@ -559,46 +626,77 @@
             document.getElementById('progress-fill').style.width = '100%';
         }
         
-        function displayRecipe(recipe, notes, totalScoops, estimatedCalories) {
-            const scoopLabels = {
-                yellow: 'Maltodextrin',
-                blue: 'Sugar', 
-                green: 'Sodium Citrate',
-                purple: 'MCT Powder',
-                orange: 'Flavoring'
-            };
-            
-            const scoopEmojis = {
-                yellow: 'Y',
-                blue: 'B',
-                green: 'G', 
-                purple: 'P',
-                orange: 'O'
-            };
-            
+        function displayRecipe(recipe, notes, estimatedCalories) {
             const recipeHtml = `
                 <div class="recipe-result">
                     <div class="recipe-title">Your Custom Recipe (500ml bottle)</div>
                     
-                    <div class="scoop-combo-large">
-                        ${Object.entries(recipe).map(([color, count]) => `
-                            <div class="scoop-group-large">
-                                <div class="scoop-count-large">${count}</div>
-                                <div class="scoop-icon-large ${color}">${scoopEmojis[color]}</div>
-                                <div class="scoop-label">${scoopLabels[color]}</div>
+                    <div class="tool-explanation">
+                        <h4>Your Eco-Friendly Measuring Tools</h4>
+                        <div class="tool-grid">
+                            <div class="tool-item">
+                                <div class="tool-icon green-scoop">G</div>
+                                <div class="tool-name">GREEN SCOOP</div>
+                                <div class="tool-desc">1 Tablespoon<br>(main ingredients)</div>
                             </div>
-                        `).join('')}
+                            <div class="tool-item">
+                                <div class="tool-icon purple-scoop">P</div>
+                                <div class="tool-name">PURPLE SCOOP</div>
+                                <div class="tool-desc">1/2 Teaspoon<br>(electrolytes & flavor)</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scoop-combo-large">
+                        <div class="scoop-section">
+                            <div class="scoop-section-title">GREEN SCOOPS (Tablespoon)</div>
+                            
+                            <div class="scoop-group-large">
+                                <div class="scoop-count-large">${recipe.maltodextrin}</div>
+                                <div class="scoop-icon-large green-scoop">G</div>
+                                <div class="scoop-label">Maltodextrin</div>
+                            </div>
+                            
+                            <div class="scoop-group-large">
+                                <div class="scoop-count-large">${recipe.sugar}</div>
+                                <div class="scoop-icon-large green-scoop">G</div>
+                                <div class="scoop-label">Table Sugar</div>
+                            </div>
+                            
+                            <div class="scoop-group-large">
+                                <div class="scoop-count-large">${recipe.mct}</div>
+                                <div class="scoop-icon-large green-scoop">G</div>
+                                <div class="scoop-label">MCT Powder</div>
+                            </div>
+                        </div>
+                        
+                        <div class="scoop-section">
+                            <div class="scoop-section-title">PURPLE SCOOPS (1/2 Teaspoon)</div>
+                            
+                            <div class="scoop-group-large">
+                                <div class="scoop-count-large">${recipe.sodium_citrate}</div>
+                                <div class="scoop-icon-large purple-scoop">P</div>
+                                <div class="scoop-label">Sodium Citrate</div>
+                            </div>
+                            
+                            <div class="scoop-group-large">
+                                <div class="scoop-count-large">1</div>
+                                <div class="scoop-icon-large purple-scoop">P</div>
+                                <div class="scoop-label">Flavoring</div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="recipe-stats">
-                        <strong>~${estimatedCalories} calories • ${totalScoops} total scoops</strong>
+                        <strong>~${estimatedCalories} calories per bottle</strong>
                     </div>
                     
                     <div class="recipe-instructions">
                         <h4>How to mix:</h4>
                         <ol>
                             <li>Add 500ml (16oz) water to your bottle</li>
-                            <li>Add the scoops shown above in any order</li>
+                            <li>Add the GREEN scoops (tablespoon measurements) first</li>
+                            <li>Add the PURPLE scoops (1/2 teaspoon measurements)</li>
                             <li>Shake vigorously for 30 seconds</li>
                             <li>Taste and adjust future mixes as needed</li>
                         </ol>
