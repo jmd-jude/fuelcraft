@@ -23,9 +23,21 @@ async function saveOrderToAirtable(orderData, orderID) {
         const customerInfo = `Name: ${orderData.customer.firstName} ${orderData.customer.lastName}\nEmail: ${orderData.customer.email}\nAddress: ${orderData.customer.address}\n${orderData.customer.city}, ${orderData.customer.state} ${orderData.customer.zipCode}`;
         
         const itemsInfo = orderData.items.map(item => {
-            const variants = item.variants ? 
-                ' (' + Object.values(item.variants).map(v => v.name).join(', ') + ')' : '';
-            return `${item.name}${variants} - Qty: ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`;
+            let itemDescription = item.name;
+            
+            // Handle new selectedFlavors format
+            if (item.selectedFlavors && item.selectedFlavors.length > 0) {
+                const flavorNames = item.selectedFlavors.map(f => f.name).join(', ');
+                itemDescription += ` (Flavors: ${flavorNames})`;
+            } else if (item.variants) {
+                // Handle old variants format
+                const variants = Object.values(item.variants).map(v => v.name).join(', ');
+                if (variants) {
+                    itemDescription += ` (${variants})`;
+                }
+            }
+            
+            return `${itemDescription} - Qty: ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`;
         }).join('\n');
 
         const addressInfo = `${orderData.customer.address}\n${orderData.customer.city}, ${orderData.customer.state} ${orderData.customer.zipCode}`;
@@ -43,7 +55,7 @@ async function saveOrderToAirtable(orderData, orderID) {
                 'City': orderData.customer.city,
                 'State': orderData.customer.state,
                 'Zip': orderData.customer.zipCode,
-                'Status': 'New',  // Use existing status option
+                'Status': 'New',
                 'Tracking': ''
             }
         };
@@ -98,6 +110,16 @@ exports.handler = async (event, context) => {
         const { items, customer, totals } = orderData;
 
         console.log('Processing order for:', customer.email);
+        console.log('Items:', JSON.stringify(items, null, 2));
+        console.log('DEBUG: Processing items for Stripe:');
+            items.forEach((item, index) => {
+                console.log(`Item ${index}:`, JSON.stringify(item, null, 2));
+                if (item.selectedFlavors) {
+                    console.log(`  Flavors found:`, item.selectedFlavors.map(f => f.name));
+                } else {
+                    console.log(`  No selectedFlavors found for item ${index}`);
+                }
+            });
 
         // Generate order ID
         const orderID = generateOrderID();
@@ -111,15 +133,25 @@ exports.handler = async (event, context) => {
 
         // Create line items for Stripe
         const lineItems = items.map(item => {
-            const variants = item.variants ? 
-                Object.values(item.variants).map(v => v.name).join(', ') : '';
+            let itemName = item.name;
+            
+            // Handle new selectedFlavors format for Stripe display
+            if (item.selectedFlavors && item.selectedFlavors.length > 0) {
+                const flavorNames = item.selectedFlavors.map(f => f.name).join(', ');
+                itemName += ` (Flavors: ${flavorNames})`;
+            } else if (item.variants) {
+                // Handle old variants format
+                const variants = Object.values(item.variants).map(v => v.name).join(', ');
+                if (variants) {
+                    itemName += ` (${variants})`;
+                }
+            }
             
             return {
                 price_data: {
                     currency: 'usd',
                     product_data: {
-                        name: item.name,
-                        description: variants || undefined,
+                        name: itemName,
                     },
                     unit_amount: Math.round(item.price * 100), // Convert to cents
                 },
@@ -150,6 +182,8 @@ exports.handler = async (event, context) => {
                 quantity: 1,
             });
         }
+
+        console.log('Creating Stripe session with line items:', JSON.stringify(lineItems, null, 2));
 
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
