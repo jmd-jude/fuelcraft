@@ -130,6 +130,7 @@
         }
 
         .product-card.featured::before {
+            content: 'POPULAR';
             position: absolute;
             top: 15px;
             right: -30px;
@@ -406,7 +407,7 @@
                 <button class="filter-btn active" data-category="all">All Products</button>
                 <button class="filter-btn" data-category="starter">Starter</button>
                 <button class="filter-btn" data-category="standard">Standard</button>
-                <button class="filter-btn" data-category="bulk">Subscription</button>
+                <!--<button class="filter-btn" data-category="subscription">Subscription</button>-->
             </div>
         </div>
 
@@ -689,7 +690,7 @@
             const emojis = {
                 starter: '🎯',
                 standard: '⭐',
-                bulk: '💪'
+                subscription: '💪'
             };
             return emojis[category] || '📦';
         }

@@ -36,25 +36,46 @@
       "variants": {
         "flavoring": [
           {
-            "id": "lemon-lime",
-            "name": "Lemon-Lime",
+            "id": "lime",
+            "name": "Lime",
             "price_modifier": 0,
-            "sku_suffix": "-LL",
-            "description": "Classic citrus flavor"
+            "sku_suffix": "-LI",
+            "description": "Cooling Lime"
           },
           {
-            "id": "berry-mix",
-            "name": "Berry Mix", 
+            "id": "cucumber",
+            "name": "Cucumber", 
             "price_modifier": 0,
-            "sku_suffix": "-BM",
-            "description": "Natural strawberry-raspberry blend"
+            "sku_suffix": "-CU",
+            "description": "Refreshing Cucumber"
           },
           {
-            "id": "variety-pack",
-            "name": "Variety Pack",
+            "id": "raspberry",
+            "name": "Raspberry",
             "price_modifier": 0,
-            "sku_suffix": "-VP",
-            "description": "All flavors included - best for experimentation"
+            "sku_suffix": "-RA",
+            "description": "Energizing Raspberry"
+          },
+          {
+            "id": "watermelon",
+            "name": "Watermelon",
+            "price_modifier": 0,
+            "sku_suffix": "-WA",
+            "description": "Natural Watermelon"
+          },
+          {
+            "id": "orange",
+            "name": "Orange",
+            "price_modifier": 0,
+            "sku_suffix": "-OR",
+            "description": "Fresh Orange"
+          },
+          {
+            "id": "pineapple",
+            "name": "Pineapple",
+            "price_modifier": 0,
+            "sku_suffix": "-PI",
+            "description": "Pineapple"
           }
         ]
       },
@@ -73,7 +94,7 @@
       "name": "Standard Kit - 10 Servings",
       "category": "standard",
       "price": 18,
-      "featured": true,
+      "featured": false,
       "formula_version": "1.0",
       "launch_date": "2025-08-15",
       "description": "Our most popular kit - perfect for 2-3 weeks of training with advanced MCT fuel technology",
@@ -103,25 +124,46 @@
       "variants": {
         "flavoring": [
           {
-            "id": "lemon-lime",
-            "name": "Lemon-Lime",
+            "id": "lime",
+            "name": "Lime",
             "price_modifier": 0,
-            "sku_suffix": "-LL",
-            "description": "Classic citrus flavor"
+            "sku_suffix": "-LI",
+            "description": "Cooling Lime"
           },
           {
-            "id": "berry-mix",
-            "name": "Berry Mix", 
+            "id": "cucumber",
+            "name": "Cucumber", 
             "price_modifier": 0,
-            "sku_suffix": "-BM",
-            "description": "Natural strawberry-raspberry blend"
+            "sku_suffix": "-CU",
+            "description": "Refreshing Cucumber"
           },
           {
-            "id": "variety-pack",
-            "name": "Variety Pack",
+            "id": "raspberry",
+            "name": "Raspberry",
             "price_modifier": 0,
-            "sku_suffix": "-VP",
-            "description": "All flavors included - best for experimentation"
+            "sku_suffix": "-RA",
+            "description": "Energizing Raspberry"
+          },
+          {
+            "id": "watermelon",
+            "name": "Watermelon",
+            "price_modifier": 0,
+            "sku_suffix": "-WA",
+            "description": "Natural Watermelon"
+          },
+          {
+            "id": "orange",
+            "name": "Orange",
+            "price_modifier": 0,
+            "sku_suffix": "-OR",
+            "description": "Fresh Orange"
+          },
+          {
+            "id": "pineapple",
+            "name": "Pineapple",
+            "price_modifier": 0,
+            "sku_suffix": "-PI",
+            "description": "Pineapple"
           }
         ]
       },
