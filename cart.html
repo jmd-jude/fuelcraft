@@ -12,78 +12,138 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
             color: #2c3e50;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            background: #fafbfc;
+        }
+
+        /* Navigation */
+        .nav-container {
+            background: white;
+            border-bottom: 1px solid #e8f0fe;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .logo-accent {
+            color: #4CAF50;
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 15px;
+            gap: 40px;
+            align-items: center;
         }
 
         .nav-link {
-            color: #4CAF50;
+            color: #2c3e50;
             text-decoration: none;
-            font-weight: bold;
-            padding: 10px 20px;
-            border: 2px solid #4CAF50;
-            border-radius: 25px;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
 
         .nav-link:hover {
-            background: #4CAF50;
-            color: white;
-            transform: translateY(-2px);
+            color: #4CAF50;
         }
 
-        .cart-content {
+        .back-link {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            color: #4CAF50;
+            padding: 10px 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #4CAF50;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Header */
+        .page-header {
+            background: linear-gradient(135deg, #f8fffe 0%, #e8f5e8 100%);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #1a2e35;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 1.2em;
+            color: #5a6c7d;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 40px;
+        }
+
+        /* Cart Items */
+        .cart-items-section {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
-        .cart-header {
-            background: #f8f9fa;
-            padding: 20px 25px;
-            border-bottom: 1px solid #e9ecef;
+        .section-header {
+            background: #f8fffe;
+            padding: 25px 30px;
+            border-bottom: 1px solid #e8f5e8;
         }
 
-        .cart-header h2 {
+        .section-title {
+            font-size: 1.4em;
+            font-weight: 700;
             color: #2c3e50;
             margin-bottom: 5px;
         }
 
-        .cart-subtitle {
-            color: #7f8c8d;
+        .section-subtitle {
+            color: #5a6c7d;
             font-size: 0.9em;
         }
 
@@ -92,11 +152,16 @@
         }
 
         .cart-item {
-            padding: 25px;
-            border-bottom: 1px solid #e9ecef;
+            padding: 30px;
+            border-bottom: 1px solid #f0f4f8;
             display: flex;
             gap: 20px;
             align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .cart-item:hover {
+            background: #fafbfc;
         }
 
         .cart-item:last-child {
@@ -104,14 +169,15 @@
         }
 
         .item-image {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
-            border-radius: 10px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 1.8em;
+            color: white;
             flex-shrink: 0;
         }
 
@@ -120,49 +186,55 @@
         }
 
         .item-name {
-            font-size: 1.2em;
-            font-weight: bold;
+            font-size: 1.1em;
+            font-weight: 600;
             color: #2c3e50;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .item-variants {
-            color: #7f8c8d;
+            color: #5a6c7d;
             font-size: 0.9em;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            background: #f0f4f8;
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: inline-block;
         }
 
         .item-price {
-            font-size: 1.1em;
+            font-size: 1em;
             color: #4CAF50;
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .item-controls {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
 
         .quantity-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
-            background: #f8f9fa;
-            border-radius: 20px;
-            padding: 5px;
+            gap: 12px;
+            background: #f8fffe;
+            border: 2px solid #e8f5e8;
+            border-radius: 25px;
+            padding: 8px;
         }
 
         .qty-btn {
             background: #4CAF50;
             color: white;
             border: none;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
             font-weight: bold;
+            font-size: 1.1em;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -181,30 +253,41 @@
         }
 
         .quantity {
-            font-weight: bold;
+            font-weight: 600;
             min-width: 30px;
             text-align: center;
+            color: #2c3e50;
         }
 
         .remove-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 5px 10px;
+            background: transparent;
+            color: #dc3545;
+            border: 1px solid #dc3545;
+            padding: 6px 12px;
             border-radius: 15px;
             cursor: pointer;
             font-size: 0.8em;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
 
         .remove-btn:hover {
-            background: #c82333;
+            background: #dc3545;
+            color: white;
         }
 
-        .cart-summary {
-            background: #f8f9fa;
-            padding: 25px;
-            border-top: 2px solid #e9ecef;
+        /* Cart Summary */
+        .cart-summary-section {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-content {
+            padding: 30px;
         }
 
         .summary-row {
@@ -212,7 +295,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
-            font-size: 1.1em;
+            font-size: 1em;
         }
 
         .summary-row:last-child {
@@ -220,109 +303,179 @@
         }
 
         .summary-label {
-            color: #495057;
+            color: #5a6c7d;
         }
 
         .summary-value {
-            font-weight: bold;
+            font-weight: 600;
             color: #2c3e50;
         }
 
         .total-row {
-            border-top: 2px solid #dee2e6;
-            padding-top: 15px;
+            border-top: 2px solid #f0f4f8;
+            padding-top: 20px;
+            margin-top: 20px;
             font-size: 1.3em;
         }
 
         .total-row .summary-value {
             color: #4CAF50;
             font-size: 1.2em;
+            font-weight: 700;
         }
 
         .shipping-note {
-            background: #d4edda;
-            color: #155724;
-            padding: 10px 15px;
-            border-radius: 8px;
+            background: #e8f5e8;
+            color: #2d5016;
+            padding: 12px 15px;
+            border-radius: 10px;
             font-size: 0.9em;
-            margin: 15px 0;
-            border-left: 4px solid #28a745;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .shipping-note.warning {
+            background: #fff3e0;
+            color: #e65100;
+            border-left-color: #ff9800;
+        }
+
+        .savings-highlight {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .savings-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .savings-desc {
+            opacity: 0.9;
+            font-size: 0.9em;
         }
 
         .checkout-section {
-            padding: 25px;
-            text-align: center;
-            background: #f8f9fa;
+            margin-top: 25px;
         }
 
         .checkout-btn {
+            width: 100%;
             background: #4CAF50;
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: 18px;
             font-size: 1.2em;
-            border-radius: 30px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
             transition: all 0.3s ease;
-            margin: 10px;
+            margin-bottom: 15px;
         }
 
         .checkout-btn:hover {
             background: #45a049;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
         }
 
         .continue-shopping {
+            width: 100%;
             background: transparent;
             color: #4CAF50;
             border: 2px solid #4CAF50;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .continue-shopping:hover {
             background: #4CAF50;
             color: white;
+            transform: translateY(-2px);
         }
 
+        /* Empty Cart */
         .empty-cart {
             text-align: center;
-            padding: 60px 25px;
+            padding: 80px 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
-        .empty-cart h3 {
-            color: #7f8c8d;
+        .empty-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2c3e50;
             margin-bottom: 15px;
-            font-size: 1.5em;
         }
 
-        .empty-cart p {
-            color: #7f8c8d;
-            margin-bottom: 25px;
+        .empty-desc {
+            color: #5a6c7d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
         }
 
-        .savings-highlight {
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+        .start-shopping-btn {
+            background: #4CAF50;
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: center;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            display: inline-block;
         }
 
-        .savings-highlight h3 {
-            margin-bottom: 10px;
+        .start-shopping-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
         }
 
+        /* Mobile Responsive */
         @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 2.2em;
+            }
+
             .container {
-                padding: 15px;
+                padding: 40px 15px;
+            }
+
+            .cart-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .cart-summary-section {
+                position: static;
+                order: -1;
             }
 
             .cart-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
+                gap: 20px;
             }
 
             .item-details {
@@ -336,41 +489,49 @@
             }
 
             .summary-row {
-                font-size: 1em;
+                font-size: 0.95em;
             }
+        }
 
-            .nav-links {
-                flex-direction: column;
-                align-items: center;
-            }
+        /* Loading animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 1.2em;
+            color: #5a6c7d;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Your Cart</h1>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav">
+            <a href="index.html" class="logo">Fuel<span class="logo-accent">Craft</span></a>
             <div class="nav-links">
-                <a href="index.html" class="nav-link">← Back to Home</a>
-                <a href="shop.html" class="nav-link">Continue Shopping</a>
+                <a href="shop.html" class="nav-link">Products</a>
+                <a href="recipe-builder.html" class="nav-link">Recipe Builder</a>
+                <a href="cards.html" class="nav-link">How It Works</a>
+                <a href="shop.html" class="back-link">← Continue Shopping</a>
             </div>
         </div>
+    </nav>
 
-        <div class="cart-content">
-            <div class="cart-header">
-                <h2>Review Your Order</h2>
-                <p class="cart-subtitle">Make any final adjustments before checkout</p>
-            </div>
-
-            <div id="cart-items-container">
-                <!-- Cart items will be inserted here -->
-            </div>
-
-            <div id="cart-summary-container">
-                <!-- Cart summary will be inserted here -->
-            </div>
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="header-content">
+            <h1 class="page-title">Your Cart</h1>
+            <p class="page-subtitle">Review your items and proceed to checkout</p>
         </div>
-    </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div id="cart-content">
+            <div class="loading">Loading your cart...</div>
+        </div>
+    </main>
 
     <script>
         let cart = JSON.parse(localStorage.getItem('fuelcraft-cart') || '[]');
@@ -384,30 +545,44 @@
 
         // Render entire cart
         function renderCart() {
-            const itemsContainer = document.getElementById('cart-items-container');
-            const summaryContainer = document.getElementById('cart-summary-container');
+            const container = document.getElementById('cart-content');
 
             if (cart.length === 0) {
-                itemsContainer.innerHTML = `
-                    <div class="empty-cart">
-                        <h3>🛒 Your cart is empty</h3>
-                        <p>Looks like you haven't added any items to your cart yet.</p>
-                        <a href="shop.html" class="checkout-btn">Start Shopping</a>
-                    </div>
-                `;
-                summaryContainer.innerHTML = '';
+                container.innerHTML = createEmptyCartHTML();
                 return;
             }
 
-            // Render cart items
-            itemsContainer.innerHTML = `
-                <div class="cart-items">
-                    ${cart.map(item => createCartItemHTML(item)).join('')}
+            container.innerHTML = `
+                <div class="cart-layout">
+                    <div class="cart-items-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Your Items</h2>
+                            <p class="section-subtitle">Review and adjust quantities before checkout</p>
+                        </div>
+                        <div class="cart-items">
+                            ${cart.map(item => createCartItemHTML(item)).join('')}
+                        </div>
+                    </div>
+                    <div class="cart-summary-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Order Summary</h2>
+                        </div>
+                        ${createCartSummaryHTML()}
+                    </div>
                 </div>
             `;
+        }
 
-            // Render cart summary
-            summaryContainer.innerHTML = createCartSummaryHTML();
+        // Create empty cart HTML
+        function createEmptyCartHTML() {
+            return `
+                <div class="empty-cart">
+                    <div class="empty-icon">🛒</div>
+                    <h2 class="empty-title">Your cart is empty</h2>
+                    <p class="empty-desc">Ready to craft some custom sports nutrition?</p>
+                    <a href="shop.html" class="start-shopping-btn">Start Shopping</a>
+                </div>
+            `;
         }
 
         // Create HTML for individual cart item
@@ -437,7 +612,7 @@
                     <div class="item-details">
                         <div class="item-name">${item.name}</div>
                         ${flavorDisplay}
-                        <div class="item-price">$${item.price.toFixed(2)} each</div>
+                        <div class="item-price">$${item.price.toFixed(2)} each • Total: $${totalPrice.toFixed(2)}</div>
                     </div>
                     <div class="item-controls">
                         <div class="quantity-controls">
@@ -451,9 +626,8 @@
             `;
         }
 
-        // ALSO update the createItemKey function to handle selectedFlavors:
+        // Create item key for tracking
         function createItemKey(itemId, variants) {
-            // Handle both old variants format and new selectedFlavors format
             let keyData = itemId;
             if (variants) {
                 if (Array.isArray(variants)) {
@@ -473,46 +647,65 @@
             const shipping = calculateShipping(subtotal);
             const total = subtotal + shipping;
             const totalSavings = calculateTotalSavings();
+            const itemCount = getTotalItems();
 
-            return `
-                <div class="cart-summary">
-                    <div class="summary-row">
-                        <span class="summary-label">Subtotal (${getTotalItems()} items)</span>
-                        <span class="summary-value">$${subtotal.toFixed(2)}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Shipping</span>
-                        <span class="summary-value">${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
-                    </div>
-                    ${shipping > 0 ? `
-                        <div class="shipping-note">
-                            💡 Add $${(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2)} more for free shipping!
-                        </div>
-                    ` : `
-                        <div class="shipping-note">
-                            🎉 You qualify for free shipping!
-                        </div>
-                    `}
-                    <div class="summary-row total-row">
-                        <span class="summary-label">Total</span>
-                        <span class="summary-value">$${total.toFixed(2)}</span>
-                    </div>
-                    ${totalSavings > 0 ? `
-                        <div class="savings-highlight">
-                            <h3>🎯 You're saving $${totalSavings.toFixed(0)}!</h3>
-                            <p>Compared to premium sports nutrition brands</p>
-                        </div>
-                    ` : ''}
+            let html = '<div class="summary-content">';
+            
+            html += `
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal (${itemCount} items)</span>
+                    <span class="summary-value">$${subtotal.toFixed(2)}</span>
                 </div>
+                <div class="summary-row">
+                    <span class="summary-label">Shipping</span>
+                    <span class="summary-value">${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
+                </div>
+            `;
+
+            if (shipping > 0) {
+                const remaining = (FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2);
+                html += `
+                    <div class="shipping-note warning">
+                        💡 <strong>Add $${remaining} more for free shipping!</strong>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="shipping-note">
+                        🎉 <strong>You qualify for free shipping!</strong>
+                    </div>
+                `;
+            }
+            
+            html += `
+                <div class="summary-row total-row">
+                    <span class="summary-label">Total</span>
+                    <span class="summary-value">$${total.toFixed(2)}</span>
+                </div>
+            `;
+            
+            if (totalSavings > 0) {
+                html += `
+                    <div class="savings-highlight">
+                        <div class="savings-title">🎯 You're saving $${totalSavings.toFixed(0)}!</div>
+                        <div class="savings-desc">Compared to premium sports nutrition brands</div>
+                    </div>
+                `;
+            }
+
+            html += `
                 <div class="checkout-section">
                     <button class="checkout-btn" onclick="proceedToCheckout()">
                         Proceed to Checkout - $${total.toFixed(2)}
                     </button>
-                    <button class="checkout-btn continue-shopping" onclick="continueShopping()">
+                    <button class="continue-shopping" onclick="continueShopping()">
                         Continue Shopping
                     </button>
                 </div>
             `;
+
+            html += '</div>';
+            return html;
         }
 
         // Update item quantity
@@ -529,8 +722,6 @@
             }
         }
 
-
-
         // Remove item completely
         function removeItem(itemKey) {
             const itemIndex = findCartItemIndexByKey(itemKey);
@@ -545,7 +736,6 @@
         // Find cart item index by unique key
         function findCartItemIndexByKey(itemKey) {
             return cart.findIndex(item => {
-                // Use the same logic as createItemKey to match items
                 const itemVariants = item.variants || item.selectedFlavors;
                 return createItemKey(item.id, itemVariants) === itemKey;
             });
